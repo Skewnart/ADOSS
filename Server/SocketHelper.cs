@@ -2,11 +2,31 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace Server
 {
     public static class SocketHelper
     {
+        public static void Listen(Socket listener)
+        {
+            bool keepgoing = true;
+            while (keepgoing)
+            {
+                try
+                {
+                    Socket handler = listener.Accept();
+                    Console.WriteLine($"{((IPEndPoint)handler.RemoteEndPoint).Address.ToString()} connecté.");
+                    Global.Clients.Add(handler);
+
+                    Thread myNewThread = new Thread(() => SocketHelper.HandleClient(handler));
+                    myNewThread.Start();
+                }
+                catch (Exception)
+                { keepgoing = false; }
+            }
+        }
+
         public static void HandleClient(Socket client)
         {
             string data = null;
@@ -27,7 +47,7 @@ namespace Server
                     client.Send(msg);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             finally
@@ -37,11 +57,11 @@ namespace Server
                     string ip = ((IPEndPoint)client.RemoteEndPoint).Address.ToString();
                     client.Shutdown(SocketShutdown.Both);
                     client.Close();
-                    Program.Clients.Remove(client);
+                    Global.Clients.Remove(client);
 
                     Console.WriteLine($"{ip} déconnecté.");
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
 
                 }

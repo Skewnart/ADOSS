@@ -1,0 +1,31 @@
+﻿M Faire toutes les commandes (en vérifiant les erreurs possibles)
+M Faire le système d'error codes
+H Log System
+L Gestion des langues
+
+Liste des commandes : 
+	Client :
+		user connect access username password
+		user register access username password
+		user changepassword username password
+
+	Server :
+		user list
+		user pending username
+		user add username password
+		user delete username
+		user access username
+		user active on/off username
+
+		access list
+		access pending
+		access add accessname
+		access delete accessname
+		access grant accessname username
+		access revoke accessname username
+		access revokeall username
+
+		help
+
+		quit
+

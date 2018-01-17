@@ -8,8 +8,6 @@ namespace Server
 {
     class Program
     {
-        public static List<Socket> Clients = new List<Socket>();
-
         static void Main(string[] args)
         {
             Global.LoadConfig();
@@ -29,7 +27,7 @@ namespace Server
                 Console.WriteLine("  terminé.");
                 Console.WriteLine($"En écoute sur le port {Global.PORT}.\n");
 
-                myNewThread = new Thread(() => Listen(listener));
+                myNewThread = new Thread(() => SocketHelper.Listen(listener));
                 myNewThread.Start();
             }
             catch (Exception e)
@@ -43,29 +41,10 @@ namespace Server
 
             }
             listener.Close();
-            foreach(Socket client in Clients)
+            foreach(Socket client in Global.Clients)
             {
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
-            }
-        }
-
-        static void Listen(Socket listener)
-        {
-            bool keepgoing = true;
-            while (keepgoing)
-            {
-                try
-                {
-                    Socket handler = listener.Accept();
-                    Console.WriteLine($"{((IPEndPoint)handler.RemoteEndPoint).Address.ToString()} connecté.");
-                    Clients.Add(handler);
-
-                    Thread myNewThread = new Thread(() => SocketHelper.HandleClient(handler));
-                    myNewThread.Start();
-                }
-                catch(Exception ex)
-                { keepgoing = false; }
             }
         }
     }
