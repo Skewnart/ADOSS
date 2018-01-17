@@ -15,8 +15,8 @@ namespace Server.System
             {
                 try
                 {
-                    Thread myNewThread = new Thread(() => HandleClient(listener.Accept()));
-                    myNewThread.Start();
+                    Socket client = listener.Accept();
+                    new Thread(() => HandleClient(client)).Start();
                 }
                 catch (Exception)
                 { keepgoing = false; }

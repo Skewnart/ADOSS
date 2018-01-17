@@ -11,6 +11,7 @@ namespace Server
         static void Main(string[] args)
         {
             Global.LoadConfig();
+            Log.LoadLogs();
             Global.DisplayTitle();
 
             Console.Write("\nInitialisation... ");

@@ -1,6 +1,7 @@
 ﻿M Faire toutes les commandes (en vérifiant les erreurs possibles)
 M Faire le système d'error codes
-H Log System
+V Log System
+H Store system
 L Gestion des langues
 
 Liste des commandes : 

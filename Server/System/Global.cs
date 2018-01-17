@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 
 namespace Server.System
 {
@@ -67,11 +65,14 @@ namespace Server.System
                         case "maxstr":
                             int.TryParse(values[1], out MAXSTRLENGTH);
                             break;
+                        case "loglength":
+                            int.TryParse(values[1], out Log.LOGLENGTH);
+                            break;
                     }
                 }
             }
             else
-                File.WriteAllLines(CONFIGPATH, new string[] { "#port = 32000", "#maxconn = 10", "#maxstr = 50" });
+                File.WriteAllLines(CONFIGPATH, new string[] { "#port = 32000", "#maxconn = 10", "#maxstr = 50", "#loglength = 1000" });
         }
     }
 }

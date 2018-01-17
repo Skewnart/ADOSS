@@ -46,6 +46,7 @@
     <Compile Include="System\Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\Log.cs" />
     <Compile Include="System\Network.cs" />
   </ItemGroup>
   <ItemGroup>
