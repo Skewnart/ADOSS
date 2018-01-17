@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Server.System;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -27,7 +27,7 @@ namespace Server
                 Console.WriteLine("  terminé.");
                 Console.WriteLine($"En écoute sur le port {Global.PORT}.\n");
 
-                myNewThread = new Thread(() => SocketHelper.Listen(listener));
+                myNewThread = new Thread(() => Network.Listen(listener));
                 myNewThread.Start();
             }
             catch (Exception e)
@@ -37,15 +37,9 @@ namespace Server
 
             string command = "";
             while (!(command = Console.ReadLine()).Equals("quit"))
-            {
-
-            }
+                Command.ProcessCommand(command, CommandSource.CommandLine);
+            
             listener.Close();
-            foreach(Socket client in Global.Clients)
-            {
-                client.Shutdown(SocketShutdown.Both);
-                client.Close();
-            }
         }
     }
 }

@@ -4,15 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 
-namespace Server
+namespace Server.System
 {
     public static class Global
     {
         public static int PORT = 32000;
         public static int MAXCONNECTIONS = 10;
         private static int MAXSTRLENGTH = 50;
-
-        public static List<Socket> Clients = new List<Socket>();
 
         private static readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config");
 
