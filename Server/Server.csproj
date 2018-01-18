@@ -42,12 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Access.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserAccess.cs" />
     <Compile Include="System\Command.cs" />
     <Compile Include="System\Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\Log.cs" />
     <Compile Include="System\Network.cs" />
+    <Compile Include="System\Store.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

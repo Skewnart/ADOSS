@@ -12,6 +12,7 @@ namespace Server
         {
             Global.LoadConfig();
             Log.LoadLogs();
+            Store.LoadDatas();
             Global.DisplayTitle();
 
             Console.Write("\nInitialisation... ");

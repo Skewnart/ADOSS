@@ -1,0 +1,35 @@
+﻿using Server.Models;
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.IO;
+
+namespace Server.System
+{
+    public static class Store
+    {
+        private static readonly string DATAPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "datas");
+
+        private static readonly string USERFILE = Path.Combine(DATAPATH, "users");
+        private static readonly string ACCESSFILE = Path.Combine(DATAPATH, "accesses");
+
+        public static List<User> Users = new List<User>();
+        public static List<Access> Accesses = new List<Access>();
+
+        public static void LoadDatas()
+        {
+            if (!Directory.Exists(DATAPATH))
+                Directory.CreateDirectory(DATAPATH);
+
+            if (File.Exists(ACCESSFILE))
+            {
+                Accesses = File.ReadAllLines(ACCESSFILE).Select(x => new Access(x)).ToList();
+            }
+            if (File.Exists(USERFILE))
+            {
+                Users = File.ReadAllLines(ACCESSFILE).Select(x => new User(x)).ToList();
+            }
+            
+        }
+    }
+}
