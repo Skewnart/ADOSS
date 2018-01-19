@@ -1,7 +1,8 @@
 ﻿M Faire toutes les commandes (en vérifiant les erreurs possibles)
 M Faire le système d'error codes
 V Log System
-H Store system
+V Store system
+L Manque le chiffrement des mots de passe
 L Gestion des langues
 
 Liste des commandes : 
@@ -29,4 +30,4 @@ Liste des commandes :
 		help
 
 		quit
-
+		

@@ -6,24 +6,32 @@ using System.Threading.Tasks;
 
 namespace Server.Models
 {
-    public class User
+    public class User : ISave
     {
         public string EMail { get; set; }
 
-        public List<UserAccess> Accesses { get; set; }
-        public List<UserAccess> Pendings { get; set; }
+        public List<UserAccess> Accesses { get; set; } = new List<UserAccess>();
+        public List<UserAccess> Pendings { get; set; } = new List<UserAccess>();
 
-        public User(string email, string password)
+        public User()
         {
-            this.EMail = email;
 
-            this.Accesses = new List<UserAccess>();
-            this.Pendings = new List<UserAccess>();
         }
 
-        public User(string str)
+        public User(string content)
         {
+            string[] line = content.Split(new string[] { "||" }, StringSplitOptions.None);
+            this.EMail = line[0];
 
+            if (!String.IsNullOrEmpty(line[1]))
+                this.Accesses = line[1].Split(new string[] { "$$" }, StringSplitOptions.None).Select(x => new UserAccess(x)).ToList();
+            if (!String.IsNullOrEmpty(line[2]))
+                this.Pendings = line[2].Split(new string[] { "$$" }, StringSplitOptions.None).Select(x => new UserAccess(x)).ToList();
+        }
+
+        public string Save()
+        {
+            return $"{this.EMail}||{String.Join("$$", this.Accesses)}||{String.Join("$$", this.Pendings)}";
         }
     }
 }

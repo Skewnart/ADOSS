@@ -27,9 +27,15 @@ namespace Server.System
             }
             if (File.Exists(USERFILE))
             {
-                Users = File.ReadAllLines(ACCESSFILE).Select(x => new User(x)).ToList();
+                Users = File.ReadAllLines(USERFILE).Select(x => new User(x)).ToList();
             }
-            
+        }
+
+        public static void Save<T>(this List<T> list) where T : ISave
+        {
+            string file = (typeof(T) == typeof(User) ? USERFILE : (typeof(T) == typeof(Access) ? ACCESSFILE : null));
+                if (!String.IsNullOrEmpty(file))
+            File.WriteAllLines(file, list.Select(x => x.Save()).ToArray());
         }
     }
 }
