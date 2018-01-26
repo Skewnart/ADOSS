@@ -66,13 +66,13 @@ namespace Client
             if (!message.Equals("quit"))
             {
                 byte[] bytes = new byte[1024];
-                byte[] msg = Encoding.UTF8.GetBytes(message);
+                byte[] msg = Encoding.UTF8.GetBytes(message.Encrypt());
                 
                 int bytesSent = Server.Send(msg);
                 this.InfosList.Add($"Sent : {message}");
                 
                 int bytesRec = Server.Receive(bytes);
-                this.InfosList.Add($"Received : {Encoding.UTF8.GetString(bytes, 0, bytesRec)}");
+                this.InfosList.Add($"Received : {Encoding.UTF8.GetString(bytes, 0, bytesRec).Decrypt()}");
             }
             else
             {

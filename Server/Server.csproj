@@ -47,6 +47,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserAccess.cs" />
     <Compile Include="System\Command.cs" />
+    <Compile Include="System\Cryptography.cs" />
     <Compile Include="System\Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,6 +59,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ErrorCodes.txt" />
     <Content Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

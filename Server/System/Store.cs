@@ -23,11 +23,11 @@ namespace Server.System
 
             if (File.Exists(ACCESSFILE))
             {
-                Accesses = File.ReadAllLines(ACCESSFILE).Select(x => new Access(x)).ToList();
+                Accesses = File.ReadAllLines(ACCESSFILE).Select(x => new Access(x.Decrypt())).ToList();
             }
             if (File.Exists(USERFILE))
             {
-                Users = File.ReadAllLines(USERFILE).Select(x => new User(x)).ToList();
+                Users = File.ReadAllLines(USERFILE).Select(x => new User(x.Decrypt())).ToList();
             }
         }
 
@@ -35,7 +35,7 @@ namespace Server.System
         {
             string file = (typeof(T) == typeof(User) ? USERFILE : (typeof(T) == typeof(Access) ? ACCESSFILE : null));
                 if (!String.IsNullOrEmpty(file))
-            File.WriteAllLines(file, list.Select(x => x.Save()).ToArray());
+            File.WriteAllLines(file, list.Select(x => x.Save().Encrypt()).ToArray());
         }
     }
 }

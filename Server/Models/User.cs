@@ -8,7 +8,7 @@ namespace Server.Models
 {
     public class User : ISave
     {
-        public string EMail { get; set; }
+        public string Username { get; set; }
 
         public List<UserAccess> Accesses { get; set; } = new List<UserAccess>();
         public List<UserAccess> Pendings { get; set; } = new List<UserAccess>();
@@ -21,7 +21,7 @@ namespace Server.Models
         public User(string content)
         {
             string[] line = content.Split(new string[] { "||" }, StringSplitOptions.None);
-            this.EMail = line[0];
+            this.Username = line[0];
 
             if (!String.IsNullOrEmpty(line[1]))
                 this.Accesses = line[1].Split(new string[] { "$$" }, StringSplitOptions.None).Select(x => new UserAccess(x)).ToList();
@@ -31,7 +31,7 @@ namespace Server.Models
 
         public string Save()
         {
-            return $"{this.EMail}||{String.Join("$$", this.Accesses)}||{String.Join("$$", this.Pendings)}";
+            return $"{this.Username}||{String.Join("$$", this.Accesses)}||{String.Join("$$", this.Pendings)}";
         }
     }
 }

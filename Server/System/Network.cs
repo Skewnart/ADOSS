@@ -34,9 +34,10 @@ namespace Server.System
                 data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
 
                 if (String.IsNullOrEmpty(data)) throw new Exception();
+                data = data.Decrypt();
 
                 Console.WriteLine($"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()} : {data.LineFormat()}");
-                client.Send(Encoding.UTF8.GetBytes(Command.ProcessCommand(data, CommandSource.Socket)));
+                client.Send(Encoding.UTF8.GetBytes(Command.ProcessCommand(data, CommandSource.Socket).Encrypt()));
             }
             catch (Exception)
             {
