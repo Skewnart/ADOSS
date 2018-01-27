@@ -2,7 +2,7 @@
 M Faire le système d'error codes
 V Log System
 V Store system
-L Manque le chiffrement des mots de passe
+V Manque le chiffrement des mots de passe
 L Gestion des langues
 
 Liste des commandes : 
@@ -10,6 +10,8 @@ Liste des commandes :
 		user connect access username password
 		user register access username password
 		user changepassword username password
+
+		errors list
 
 	Server :
 		user list
