@@ -5,11 +5,13 @@ V Store system
 V Manque le chiffrement des mots de passe
 L Gestion des langues
 
+Faire les errorcodes
+
 Liste des commandes : 
 	Client :
-		user connect access username password
+		user connect access username password							V
 		user register access username password
-		user changepassword username password
+		user changepassword access username oldpassword newpassword
 
 		errors list
 
@@ -32,4 +34,3 @@ Liste des commandes :
 		help
 
 		quit
-		

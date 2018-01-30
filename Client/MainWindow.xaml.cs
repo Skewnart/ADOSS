@@ -1,28 +1,93 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Client
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public Socket Server { get; set; } = null;
-        public ObservableCollection<string> InfosList { get; set; } = new ObservableCollection<string>();
+        private string serverPath;
+        public string ServerPath
+        {
+            get { return serverPath; }
+            set
+            {
+                serverPath = value;
+                OnPropertyChanged("ServerPah");
+            }
+        }
+        private string username;
+        public string Username
+        {
+            get { return username; }
+            set
+            {
+                username = value;
+                OnPropertyChanged("Username");
+            }
+        }
+        private string password;
+        public string Password
+        {
+            get { return password; }
+            set
+            {
+                password = value;
+                OnPropertyChanged("Password");
+            }
+        }
+        private string newpassword;
+        public string NewPassword
+        {
+            get { return newpassword; }
+            set
+            {
+                newpassword = value;
+                OnPropertyChanged("NewPassword");
+            }
+        }
+        private string access;
+        public string Access
+        {
+            get { return access; }
+            set
+            {
+                access = value;
+                OnPropertyChanged("Access");
+            }
+        }
+        private string result;
+        public string Result
+        {
+            get { return result; }
+            set
+            {
+                result = value;
+                OnPropertyChanged("Result");
+            }
+        }
 
-        public string Address { get; set; }
+        public List<ErrorCode> ErrorCodes { get; set; } = new List<ErrorCode>();
+        public Socket Server { get; set; } = null;
 
         public MainWindow()
         {
             InitializeComponent();
-            this.textboxAdd.Focus();
+            this.textbox_server.Focus();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         private bool Connect()
@@ -31,14 +96,12 @@ namespace Client
             {
                 // Establish the remote endpoint for the socket.
                 // This example uses port 11000 on the local computer.
-                IPHostEntry ipHostInfo = Dns.Resolve(this.Address);
+                IPHostEntry ipHostInfo = Dns.Resolve(this.ServerPath);
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                 Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 Server.Connect(remoteEP);
-
-                this.InfosList.Add($"Socket connected to {Server.RemoteEndPoint.ToString()}");
 
                 return true;
             }
@@ -61,47 +124,55 @@ namespace Client
             return false;
         }
 
-        private void SendMessage(string message)
+        private string SendMessage(string message)
         {
-            if (!message.Equals("quit"))
+            byte[] bytes = new byte[1024];
+            byte[] msg = Encoding.UTF8.GetBytes(message.Encrypt());
+
+            if (this.Connect())
             {
-                byte[] bytes = new byte[1024];
-                byte[] msg = Encoding.UTF8.GetBytes(message.Encrypt());
-                
                 int bytesSent = Server.Send(msg);
-                this.InfosList.Add($"Sent : {message}");
-                
+
                 int bytesRec = Server.Receive(bytes);
-                this.InfosList.Add($"Received : {Encoding.UTF8.GetString(bytes, 0, bytesRec).Decrypt()}");
+                return Encoding.UTF8.GetString(bytes, 0, bytesRec).Decrypt();
             }
-            else
+
+            //Server.Shutdown(SocketShutdown.Both);
+            //Server.Close();
+
+            return null;
+        }
+
+        private void SignIn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DoAction($"user connect {this.Access} {this.Username} {this.Password.Encrypt()}");
+        }
+
+        private void Register_Click(object sender, RoutedEventArgs e)
+        {
+            this.DoAction($"user register {this.Access} {this.Username} {this.Password.Encrypt()}");
+        }
+
+        private void DoAction(string request)
+        {
+            if (this.ErrorCodes.Count == 0)
             {
-                this.InfosList.Add($"Disconnecting...");
+                string[] codesplitted = SendMessage("errors list").Split(new string[] { "$$" }, StringSplitOptions.None);
+                foreach (string code in codesplitted)
+                    this.ErrorCodes.Add(new ErrorCode(code));
+            }
 
-                Server.Shutdown(SocketShutdown.Both);
-                Server.Close();
-
-                this.InfosList.Add($"Disconnected.");
+            if (!String.IsNullOrEmpty(this.ServerPath) && !String.IsNullOrEmpty(this.Access) && !String.IsNullOrEmpty(this.Username) && !String.IsNullOrEmpty(this.Password))
+            {
+                string result = this.SendMessage(request);
+                this.Result = this.ErrorCodes.First(x => x.Code.Equals(result)).FrenchDesc;
             }
         }
 
-        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        private void Change_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                string message = ((TextBox)sender).Text;
-                if (!string.IsNullOrEmpty(message))
-                {
-                    if (Server == null || !Server.Connected)
-                        Connect();
-
-                    if (Server?.Connected ?? false)
-                    {
-                        SendMessage(message);
-                        ((TextBox)sender).Text = "";
-                    }
-                }
-            }
+            if (!String.IsNullOrEmpty(this.NewPassword))
+                this.DoAction($"user changepassword {this.Access} {this.Username} {this.Password.Encrypt()} {this.NewPassword.Encrypt()}");
         }
     }
 }

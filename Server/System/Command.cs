@@ -1,9 +1,6 @@
 ﻿using Server.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.System
 {
@@ -28,15 +25,13 @@ namespace Server.System
                         $"$$605;;L'utilisateur n'a pas accès à ce service.;;Access is denied." +
                         $"$$606;;L'accès est en cours d'acceptation.;;Access is still pending." +
                         $"$$607;;Le mot de passe ne correspond pas.;;Password does not match." +
-                        $"$$607;;Accès autorisé.;;Access granted.";
+                        $"$$608;;Accès autorisé.;;Access granted.";
                 else if (command.StartsWith("user connect"))
                 {
                     //user connect access username password
                     string[] parts = command.Split(new string[] { " " }, StringSplitOptions.None);
                     if (parts.Length == 5)
-                    {
                         if (Store.Accesses.Any(x => x.Name.Equals(parts[2])))
-                        {
                             if (Store.Users.Any(x => x.Username.Equals(parts[3])))
                             {
                                 User user = Store.Users.First(x => x.Username.Equals(parts[3]));
@@ -44,31 +39,21 @@ namespace Server.System
                                 {
                                     UserAccess access = user.Accesses.First(x => x.Access.Name.Equals(parts[2]));
 
-                                    if (access.Password.Equals(parts[4]))
-                                    {
+                                    if (access.Password.Decrypt().Equals(parts[4].Decrypt()))
                                         result = "608"; // + token here. access granted
-                                    }
                                     else
                                         result = "607";
                                 }
                                 else
-                                {
                                     if (user.Pendings.Any(x => x.Access.Name.Equals(parts[2])))
-                                    {
-                                        result = "606";
-                                    }
-                                    else
-                                    {
-                                        result = "605";
-                                    }
-                                }
+                                    result = "606";
+                                else
+                                    result = "605";
                             }
                             else
                                 result = "603";
-                        }
                         else
                             result = "604";
-                    }
                     else
                         result = "602";
                 }

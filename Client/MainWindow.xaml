@@ -6,10 +6,35 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525"
+        WindowStartupLocation="CenterScreen"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
-        <ListBox Margin="0, 0, 0, 25" ItemsSource="{Binding InfosList}"/>
-        <TextBox Name="textboxAdd" Height="25" Width="200" VerticalAlignment="Bottom" HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Address}"/>
-        <TextBox Height="25" VerticalAlignment="Bottom" Margin="200, 0, 0, 0" VerticalContentAlignment="Center" Text="{Binding Message}" KeyUp="TextBox_KeyUp"/>
+        <Grid VerticalAlignment="Top" Height="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Label Content="Server"/>
+            <Label Content="Username" Grid.Row="1"/>
+            <Label Content="Password" Grid.Row="2"/>
+            <Label Content="Access" Grid.Row="3"/>
+            <TextBox Name="textbox_server" Grid.Column="1" Text="{Binding ServerPath, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Username, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Password, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Access, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+        </Grid>
+        <Button VerticalAlignment="Top" Height="30" Margin="0, 130, 0, 0" Content="Sign in" Click="SignIn_Click"/>
+        <Button VerticalAlignment="Top" Height="30" Margin="0, 160, 0, 0" Content="Register" Click="Register_Click"/>
+
+        <TextBox VerticalAlignment="Top" Height="30" Margin="0, 210, 0, 0" Text="{Binding NewPassword}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Button VerticalAlignment="Top" Height="30" Margin="0, 240, 0, 0" Content="Change Password" Click="Change_Click"/>
+
+        <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Result}"/>
     </Grid>
 </Window>
