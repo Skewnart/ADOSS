@@ -145,12 +145,12 @@ namespace Client
 
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
-            this.DoAction($"user connect {this.Access} {this.Username} {this.Password.Encrypt()}");
+            this.DoAction($"user connect \"{this.Access}\" \"{this.Username}\" \"{this.Password.Encrypt()}\"");
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            this.DoAction($"user register {this.Access} {this.Username} {this.Password.Encrypt()}");
+            this.DoAction($"user register \"{this.Access}\" \"{this.Username}\" \"{this.Password.Encrypt()}\"");
         }
 
         private void DoAction(string request)

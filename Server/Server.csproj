@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Models\Access.cs" />
     <Compile Include="Models\Interfaces\ISaveLoad.cs" />
     <Compile Include="Models\User.cs" />

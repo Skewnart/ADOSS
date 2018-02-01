@@ -6,7 +6,7 @@ namespace Client
 {
     public static class Cryptography
     {
-        private static string ALPHABET = "abcdefghijklmnopq:rstuvwxyzABCDEFGH*IJKLMNOPQRSTUVWXYZ,()\';=1234567890|$";
+        private static string ALPHABET = "abcdefghijklmnopq:rstuvwxyzABCDEFGH*IJKLMNOPQRSTUVWXYZ,()\';=1234567890|$ ";
 
         public static string Encrypt(this string plaintext)
         {

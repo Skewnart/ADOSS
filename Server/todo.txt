@@ -1,11 +1,14 @@
-﻿M Faire toutes les commandes (en vérifiant les erreurs possibles)
+﻿V Faire les errorcodes (attention aux caractères interdit)
+V Faire le parse avec les split dans le serveur
+V Mettre les " dans le client
+M Faire le token
+
+M Faire toutes les commandes (en vérifiant les erreurs possibles)
 M Faire le système d'error codes
 V Log System
 V Store system
 V Manque le chiffrement des mots de passe
 L Gestion des langues
-
-Faire les errorcodes
 
 Liste des commandes : 
 	Client :
@@ -17,14 +20,11 @@ Liste des commandes :
 
 	Server :
 		user list
-		user pending username
-		user add username password
+		user add username (password)
 		user delete username
-		user access username
 		user active on/off username
 
 		access list
-		access pending
 		access add accessname
 		access delete accessname
 		access grant accessname username
@@ -34,3 +34,20 @@ Liste des commandes :
 		help
 
 		quit
+
+Error codes :
+	register : l'acces n'exite pas, l'utilisateur est déjà enregistré, la validation de l'acces est déjà en cours
+	changepassword :	l'access n'existe pas, l'utilisateur n'existe pas, l'utilisateur n'a pas access, les identifants ne correspondent pas,
+						le mot de passe est le même que l'ancien, les deux mots de passe ne correspondent pas
+
+	user add username : l'utilisateur existe déjà, caractères spéciaux utilisés interdits ('"') [Demander le mot de passe ensuite, sans l'écrire physiquement ?]
+	user delete username : L'utilisateur n'existe pas, [Demander confirmation avant de le faire]
+	user active on/off username : L'utilisateur n'existe pas, l'utilisateur est déjà actif, l'utilisateur est déjà inactif [Faire gaffe pour les acces]
+
+	access add accessname : L'acces existe déjà, caractères spéciaux interdits
+	access delete accessname : L'acces n'existe pas [Demander confirmation]
+	access grant accessname username : L'acces n'existe pas, L'utilisateur n'existe pas, L'utilisateur a déjà cet access [Bien enlever du pending]
+	access revoke accessname username : L'acces n'existe pas, L'utilisateur n'existe pas, L'utilisateur n'a pas cet acces [Enlever du pending et de la liste]
+	access revokeall username : L'utilisateur n'existe pas, l'utilisateur n'a aucun access [Enlever du pending et de la liste]
+	
+	
