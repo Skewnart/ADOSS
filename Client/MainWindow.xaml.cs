@@ -164,8 +164,8 @@ namespace Client
 
             if (!String.IsNullOrEmpty(this.ServerPath) && !String.IsNullOrEmpty(this.Access) && !String.IsNullOrEmpty(this.Username) && !String.IsNullOrEmpty(this.Password))
             {
-                string result = this.SendMessage(request);
-                this.Result = this.ErrorCodes.First(x => x.Code.Equals(result)).FrenchDesc;
+                string[] result = this.SendMessage(request).Split(new string[] { ";;" }, StringSplitOptions.None);
+                this.Result = this.ErrorCodes.First(x => x.Code.Equals(result[0])).FrenchDesc;
             }
         }
 

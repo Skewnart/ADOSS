@@ -1,13 +1,5 @@
-﻿V Faire les errorcodes (attention aux caractères interdit)
-V Faire le parse avec les split dans le serveur
-V Mettre les " dans le client
-M Faire le token
-
-M Faire toutes les commandes (en vérifiant les erreurs possibles)
-M Faire le système d'error codes
-V Log System
-V Store system
-V Manque le chiffrement des mots de passe
+﻿M Faire toutes les commandes (en vérifiant les erreurs possibles)
+M Gestion stockage de données clé valeur
 L Gestion des langues
 
 Liste des commandes : 
@@ -50,4 +42,12 @@ Error codes :
 	access revoke accessname username : L'acces n'existe pas, L'utilisateur n'existe pas, L'utilisateur n'a pas cet acces [Enlever du pending et de la liste]
 	access revokeall username : L'utilisateur n'existe pas, l'utilisateur n'a aucun access [Enlever du pending et de la liste]
 	
-	
+
+V Faire les errorcodes (attention aux caractères interdit)
+V Faire le parse avec les split dans le serveur
+V Mettre les " dans le client
+V Faire le token
+V Log System
+V Store system
+V Manque le chiffrement des mots de passe
+V Faire le système d'error codes
