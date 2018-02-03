@@ -20,7 +20,14 @@ namespace Server.System
             {
                 if (source == CommandSource.CommandLine)
                 {
-                    _logIt = false;
+                    if (command.Equals("help"))
+                        result = "";
+                    else if (command.Equals("quit"))
+                        result = "";
+                    else if (command.Equals("user list"))
+                        result = String.Join("\n", Store.Users);
+                    else
+                        _logIt = false;
                 }
                 else if (source == CommandSource.Socket)
                 {
@@ -99,9 +106,7 @@ namespace Server.System
                         }
                     }
                     else
-                    {
                         _logIt = false;
-                    }
                 }
 
                 if (_logIt)

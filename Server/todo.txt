@@ -11,7 +11,7 @@ Liste des commandes :
 		errors list
 
 	Server :
-		user list
+		user list														V
 		user add username (password)
 		user delete username
 		user active on/off username

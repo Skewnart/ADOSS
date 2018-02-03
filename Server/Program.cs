@@ -39,7 +39,11 @@ namespace Server
 
             string command = "";
             while (!(command = Console.ReadLine()).Equals("quit"))
-                Command.ProcessCommand(null, command, CommandSource.CommandLine);
+            {
+                string result = Command.ProcessCommand(null, command, CommandSource.CommandLine);
+                if (!String.IsNullOrEmpty(result))
+                    Console.WriteLine(result);
+            }
             
             listener.Close();
         }
