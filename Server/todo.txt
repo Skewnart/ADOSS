@@ -5,8 +5,8 @@ L Gestion des langues
 Liste des commandes : 
 	Client :
 		user connect access username password							V
-		user register access username password
-		user changepassword access username oldpassword newpassword
+		user register access username password							V
+		user changepassword access username oldpassword newpassword		V
 
 		errors list
 
@@ -28,9 +28,6 @@ Liste des commandes :
 		quit
 
 Error codes :
-	register : l'acces n'exite pas, l'utilisateur est déjà enregistré, la validation de l'acces est déjà en cours
-	changepassword :	l'access n'existe pas, l'utilisateur n'existe pas, l'utilisateur n'a pas access, les identifants ne correspondent pas,
-						le mot de passe est le même que l'ancien, les deux mots de passe ne correspondent pas
 
 	user add username : l'utilisateur existe déjà, caractères spéciaux utilisés interdits ('"') [Demander le mot de passe ensuite, sans l'écrire physiquement ?]
 	user delete username : L'utilisateur n'existe pas, [Demander confirmation avant de le faire]
