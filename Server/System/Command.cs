@@ -107,7 +107,7 @@ namespace Server.System
                         {
                             User user = Store.Users.First(x => x.Username.Equals(commands[3]));
                             Access access = Store.Accesses.First(x => x.Name.Equals(commands[2]));
-                            if (user.Accesses.Any(x => x.Access == access)) result = "L'utilisateur a déjà cet accès";
+                            if (user.Accesses.Any(x => x.Access == access)) result = "L'utilisateur a déjà cet accès.";
                             else
                             {
                                 if (user.Pendings.Any(x => x.Access == access))
@@ -149,6 +149,54 @@ namespace Server.System
 
                                 Store.Users.Save();
                                 result = "";
+                            }
+                        }
+                    }
+                    else if (command.StartsWith("access revoke "))
+                    {
+                        if (commands.Length != 4) result = "La commande est mal formatée.";
+                        else if (!Store.Users.Any(x => x.Username.Equals(commands[3]))) result = "L'utilisateur n'exsite pas.";
+                        else if (!Store.Accesses.Any(x => x.Name.Equals(commands[2]))) result = "Le service n'exsite pas.";
+                        else
+                        {
+                            User user = Store.Users.First(x => x.Username.Equals(commands[3]));
+                            Access access = Store.Accesses.First(x => x.Name.Equals(commands[2]));
+                            if (!user.Accesses.Any(x => x.Access == access) && !user.Pendings.Any(x => x.Access == access)) result = "L'utilisateur n'a pas cet accès.";
+                            else
+                            {
+                                Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
+                                if (Console.ReadLine().Equals("oui"))
+                                {
+                                    if (user.Accesses.Any(x => x.Access == access))
+                                        user.Accesses.Remove(user.Accesses.First(x => x.Access == access));
+                                    else if (user.Pendings.Any(x => x.Access == access))
+                                        user.Pendings.Remove(user.Pendings.First(x => x.Access == access));
+
+                                    Store.Users.Save();
+                                    result = "";
+                                }
+                            }
+                        }
+                    }
+                    else if (command.StartsWith("access revokeall"))
+                    {
+                        if (commands.Length != 3) result = "La commande est mal formatée.";
+                        else if (!Store.Users.Any(x => x.Username.Equals(commands[2]))) result = "L'utilisateur n'exsite pas.";
+                        else
+                        {
+                            User user = Store.Users.First(x => x.Username.Equals(commands[2]));
+                            if (user.Accesses.Count == 0 && user.Pendings.Count == 0) result = "L'utilisateur n'a aucun accès.";
+                            else
+                            {
+                                Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
+                                if (Console.ReadLine().Equals("oui"))
+                                {
+                                    user.Accesses.Clear();
+                                    user.Pendings.Clear();
+
+                                    Store.Users.Save();
+                                    result = "";
+                                }
                             }
                         }
                     }

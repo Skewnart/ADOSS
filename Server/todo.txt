@@ -21,8 +21,8 @@ Liste des commandes :
 		access add accessname											V
 		access delete accessname										V
 		access grant accessname username								V
-		access revoke accessname username								
-		access revokeall username										
+		access revoke accessname username								V
+		access revokeall username										V	
 
 		help															
 
@@ -30,8 +30,6 @@ Liste des commandes :
 
 Error codes :
 
-	access revoke accessname username : L'acces n'existe pas, L'utilisateur n'existe pas, L'utilisateur n'a pas cet acces [Enlever du pending et de la liste]
-	access revokeall username : L'utilisateur n'existe pas, l'utilisateur n'a aucun access [Enlever du pending et de la liste]
 	
 V Faire les errorcodes (attention aux caractères interdit)
 V Faire le parse avec les split dans le serveur
