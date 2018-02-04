@@ -36,7 +36,7 @@ namespace Server.Models
 
         public override string ToString()
         {
-            return $@"{this.Username} ({(this.Active ? "" : "Not ")}Active) :
+            return $@"{this.Username} ({(this.Active ? "" : "Not ")}Active)
     Accès : {String.Join(", ", this.Accesses.Select(x => x.Access.Name).ToArray())}
     Validation : {String.Join(", ", this.Pendings.Select(x => x.Access.Name).ToArray())}";
         }

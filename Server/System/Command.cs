@@ -98,6 +98,60 @@ namespace Server.System
                             result = "";
                         }
                     }
+                    else if (command.StartsWith("access grant"))
+                    {
+                        if (commands.Length != 4) result = "La commande est mal formatée.";
+                        else if (!Store.Users.Any(x => x.Username.Equals(commands[3]))) result = "L'utilisateur n'exsite pas.";
+                        else if (!Store.Accesses.Any(x => x.Name.Equals(commands[2]))) result = "Le service n'exsite pas.";
+                        else
+                        {
+                            User user = Store.Users.First(x => x.Username.Equals(commands[3]));
+                            Access access = Store.Accesses.First(x => x.Name.Equals(commands[2]));
+                            if (user.Accesses.Any(x => x.Access == access)) result = "L'utilisateur a déjà cet accès";
+                            else
+                            {
+                                if (user.Pendings.Any(x => x.Access == access))
+                                {
+                                    UserAccess useraccess = user.Pendings.First(x => x.Access == access);
+                                    user.Accesses.Add(useraccess);
+                                    user.Pendings.Remove(useraccess);
+                                }
+                                else
+                                {
+                                    Console.Write("Mot de passe : ");
+                                    string pass = "";
+                                    ConsoleKeyInfo key = default(ConsoleKeyInfo);
+                                    do
+                                    {
+                                        key = Console.ReadKey();
+                                        if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.D3)
+                                        {
+                                            pass += key.KeyChar;
+                                            Console.Write("\b*");
+                                        }
+                                        else
+                                        {
+                                            if (key.Key == ConsoleKey.Backspace)
+                                            {
+                                                Console.Write(" ");
+                                                if (pass.Length > 0)
+                                                {
+                                                    pass = pass.Substring(0, (pass.Length - 1));
+                                                    Console.Write("\b");
+                                                }
+                                            }
+                                        }
+                                    } while (key.Key != ConsoleKey.Enter);
+
+                                    Console.WriteLine();
+                                    user.Accesses.Add(new UserAccess(access, pass.Encrypt()));
+                                }
+
+                                Store.Users.Save();
+                                result = "";
+                            }
+                        }
+                    }
                     else
                     {
                         _logIt = false;
