@@ -53,6 +53,23 @@ namespace Server.System
                             result = "";
                         }
                     }
+                    else if (command.StartsWith("user active"))
+                    {
+                        if (commands.Length != 4 || (!commands[2].Equals("on") && !commands[2].Equals("off"))) result = "La commande est mal formatée.";
+                        else if (!Store.Users.Any(x => x.Username.Equals(commands[3]))) result = "L'utilisateur n'existe pas.";
+                        else
+                        {
+                            User user = Store.Users.First(x => x.Username.Equals(commands[3]));
+                            if ((user.Active && commands[2].Equals("on")) || (!user.Active && commands[2].Equals("off"))) result = $"L'utilisateur est déjà {(user.Active ? "" : "in")}actif";
+                            else
+                            {
+                                user.Active = !user.Active;
+                                Store.Users.Save();
+
+                                result = "";
+                            }
+                        }
+                    }
                     else
                     {
                         _logIt = false;

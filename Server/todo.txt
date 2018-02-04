@@ -1,6 +1,7 @@
 ﻿M Faire toutes les commandes (en vérifiant les erreurs possibles)
 M Gestion stockage de données clé valeur
 L Gestion des langues
+H Vérifier avec le client le actif inactif.
 
 Liste des commandes : 
 	Client :
@@ -14,7 +15,7 @@ Liste des commandes :
 		user list														V
 		user add username												V
 		user delete username											V
-		user active on/off username
+		user active on/off username										V
 
 		access list
 		access add accessname
@@ -28,8 +29,6 @@ Liste des commandes :
 		quit
 
 Error codes :
-
-	user active on/off username : L'utilisateur n'existe pas, l'utilisateur est déjà actif, l'utilisateur est déjà inactif [Faire gaffe pour les acces]
 
 	access add accessname : L'acces existe déjà, caractères spéciaux interdits
 	access delete accessname : L'acces n'existe pas [Demander confirmation]
