@@ -9,7 +9,7 @@ Liste des commandes :
 		user register access username password							V
 		user changepassword access username oldpassword newpassword		V
 
-		errors list
+		errors list														V
 
 	Server :
 		user list														V
@@ -17,21 +17,19 @@ Liste des commandes :
 		user delete username											V
 		user active on/off username										V
 
-		access list
-		access add accessname
-		access delete accessname
-		access grant accessname username
-		access revoke accessname username
-		access revokeall username
+		access list														V
+		access add accessname											V
+		access delete accessname										V
+		access grant accessname username								
+		access revoke accessname username								
+		access revokeall username										
 
-		help
+		help															
 
-		quit
+		quit															
 
 Error codes :
 
-	access add accessname : L'acces existe déjà, caractères spéciaux interdits
-	access delete accessname : L'acces n'existe pas [Demander confirmation]
 	access grant accessname username : L'acces n'existe pas, L'utilisateur n'existe pas, L'utilisateur a déjà cet access [Bien enlever du pending] [Demander le mot de passe ensuite, sans l'écrire physiquement ?]
 	access revoke accessname username : L'acces n'existe pas, L'utilisateur n'existe pas, L'utilisateur n'a pas cet acces [Enlever du pending et de la liste]
 	access revokeall username : L'utilisateur n'existe pas, l'utilisateur n'a aucun access [Enlever du pending et de la liste]

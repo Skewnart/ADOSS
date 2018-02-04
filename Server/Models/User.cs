@@ -38,7 +38,7 @@ namespace Server.Models
         {
             return $@"{this.Username} ({(this.Active ? "" : "Not ")}Active) :
     Accès : {String.Join(", ", this.Accesses.Select(x => x.Access.Name).ToArray())}
-    Validation : {String.Join(", ", this.Pendings.Select(x => x.Access.Name).ToArray())}"; ;
+    Validation : {String.Join(", ", this.Pendings.Select(x => x.Access.Name).ToArray())}";
         }
     }
 }

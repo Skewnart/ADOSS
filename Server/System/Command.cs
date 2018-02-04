@@ -70,6 +70,34 @@ namespace Server.System
                             }
                         }
                     }
+                    else if (command.Equals("access list"))
+                        result = String.Join("\n", Store.Accesses);
+                    else if (command.StartsWith("access add"))
+                    {
+                        if (commands.Length != 3) result = "La commande est mal formatée.";
+                        else if (Store.Accesses.Any(x => x.Name.Equals(commands[2]))) result = "Ce service existe déjà.";
+                        else
+                        {
+                            Store.Accesses.Add(new Access(commands[2]));
+                            Store.Accesses.Save();
+                            result = "";
+                        }
+                    }
+                    else if (command.StartsWith("access delete"))
+                    {
+                        if (commands.Length != 3) result = "La commande est mal formatée.";
+                        else if (!Store.Accesses.Any(x => x.Name.Equals(commands[2]))) result = "Le service n'existe pas.";
+                        else
+                        {
+                            Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
+                            if (Console.ReadLine().Equals("oui"))
+                            {
+                                Store.Accesses.Remove(Store.Accesses.First(x => x.Name.Equals(commands[2])));
+                                Store.Accesses.Save();
+                            }
+                            result = "";
+                        }
+                    }
                     else
                     {
                         _logIt = false;
