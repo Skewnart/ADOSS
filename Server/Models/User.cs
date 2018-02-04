@@ -7,6 +7,7 @@ namespace Server.Models
     public class User : ISave
     {
         public string Username { get; set; }
+        public bool Active { get; set; } = true;
 
         public List<UserAccess> Accesses { get; set; } = new List<UserAccess>();
         public List<UserAccess> Pendings { get; set; } = new List<UserAccess>();
@@ -20,21 +21,22 @@ namespace Server.Models
         {
             string[] line = content.Split(new string[] { "||" }, StringSplitOptions.None);
             this.Username = line[0];
+            this.Active = line[1] == "1";
 
-            if (!String.IsNullOrEmpty(line[1]))
-                this.Accesses = line[1].Split(new string[] { "$$" }, StringSplitOptions.None).Select(x => new UserAccess(x)).ToList();
             if (!String.IsNullOrEmpty(line[2]))
-                this.Pendings = line[2].Split(new string[] { "$$" }, StringSplitOptions.None).Select(x => new UserAccess(x)).ToList();
+                this.Accesses = line[2].Split(new string[] { "$$" }, StringSplitOptions.None).Select(x => new UserAccess(x)).ToList();
+            if (!String.IsNullOrEmpty(line[3]))
+                this.Pendings = line[3].Split(new string[] { "$$" }, StringSplitOptions.None).Select(x => new UserAccess(x)).ToList();
         }
 
         public string Save()
         {
-            return $"{this.Username}||{String.Join("$$", this.Accesses)}||{String.Join("$$", this.Pendings)}";
+            return $"{this.Username}||{(this.Active ? 1 : 0)}||{String.Join("$$", this.Accesses)}||{String.Join("$$", this.Pendings)}";
         }
 
         public override string ToString()
         {
-            return $@"{this.Username} :
+            return $@"{this.Username} ({(this.Active ? "" : "Not ")}Active) :
     Accès : {String.Join(", ", this.Accesses.Select(x => x.Access.Name).ToArray())}
     Validation : {String.Join(", ", this.Pendings.Select(x => x.Access.Name).ToArray())}"; ;
         }

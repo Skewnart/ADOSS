@@ -4,6 +4,7 @@ using System.Linq;
 using Server.Extensions;
 using System.Net.Sockets;
 using System.Net;
+using System.IO;
 
 namespace Server.System
 {
@@ -26,8 +27,37 @@ namespace Server.System
                         result = "";
                     else if (command.Equals("user list"))
                         result = String.Join("\n", Store.Users);
+                    else if (command.StartsWith("user add"))
+                    {
+                        if (commands.Length != 3) result = "La commande est mal formatée.";
+                        else if (Store.Users.Any(x => x.Username.Equals(commands[2]))) result = "L'utilisateur existe déjà.";
+                        else
+                        {
+                            Store.Users.Add(new User() { Username = commands[2] });
+                            Store.Users.Save();
+                            result = "";
+                        }
+                    }
+                    else if (command.StartsWith("user delete"))
+                    {
+                        if (commands.Length != 3) result = "La commande est mal formatée.";
+                        else if (!Store.Users.Any(x => x.Username.Equals(commands[2]))) result = "L'utilisateur n'existe pas.";
+                        else
+                        {
+                            Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
+                            if (Console.ReadLine().Equals("oui"))
+                            {
+                                Store.Users.Remove(Store.Users.First(x => x.Username.Equals(commands[2])));
+                                Store.Users.Save();
+                            }
+                            result = "";
+                        }
+                    }
                     else
+                    {
                         _logIt = false;
+                        result = "La commande n'existe pas.";
+                    }
                 }
                 else if (source == CommandSource.Socket)
                 {
@@ -42,7 +72,8 @@ namespace Server.System
                             $"$$608;;Accès autorisé.;;Access granted." +
                             $"$$609;;L'utilisateur est déjà enregistré.;;User already registered." +
                             $"$$610;;Le mot de passe n'a pas changé.;;Password didn't change." +
-                            $"$$611;;Le mot de passe a bien changé.;;Password successfully changed.";
+                            $"$$611;;Le mot de passe a bien changé.;;Password successfully changed." +
+                            $"$$612;;L'utilisateur n'est pas actif.;;User is not active.";
                     else if (commands[0].Equals("user") && commands[1].Equals("connect"))
                     {
                         if (commands.Length != 5) result = "602";
@@ -51,7 +82,8 @@ namespace Server.System
                         else
                         {
                             User user = Store.Users.First(x => x.Username.Equals(commands[3]));
-                            if (user.Accesses.Any(x => x.Access.Name.Equals(commands[2])))
+                            if (!user.Active) result = "612";
+                            else if (user.Accesses.Any(x => x.Access.Name.Equals(commands[2])))
                             {
                                 UserAccess access = user.Accesses.First(x => x.Access.Name.Equals(commands[2]));
 
@@ -76,10 +108,14 @@ namespace Server.System
                         {
                             if (!Store.Users.Any(x => x.Username.Equals(commands[3]))) Store.Users.Add(new User() { Username = commands[3] });
                             User user = Store.Users.FirstOrDefault(x => x.Username.Equals(commands[3]));
-                            user.Pendings.Add(new UserAccess(Store.Accesses.FirstOrDefault(x => x.Name.Equals(commands[2])), commands[4]));
-                            result = "606";
+                            if (!user.Active) result = "612";
+                            else
+                            {
+                                user.Pendings.Add(new UserAccess(Store.Accesses.FirstOrDefault(x => x.Name.Equals(commands[2])), commands[4]));
+                                result = "606";
 
-                            //Store.Users.Save();
+                                Store.Users.Save();
+                            }
                         }
                     }
                     else if (commands[0].Equals("user") && commands[1].Equals("changepassword"))
@@ -90,7 +126,8 @@ namespace Server.System
                         else
                         {
                             User user = Store.Users.FirstOrDefault(x => x.Username.Equals(commands[3]));
-                            if (!user.Accesses.Any(x => x.Access.Name.Equals(commands[2])) && !user.Pendings.Any(x => x.Access.Name.Equals(commands[2]))) result = "605";
+                            if (!user.Active) result = "612";
+                            else if (!user.Accesses.Any(x => x.Access.Name.Equals(commands[2])) && !user.Pendings.Any(x => x.Access.Name.Equals(commands[2]))) result = "605";
                             else
                             {
                                 UserAccess access = user.Accesses.Any(x => x.Access.Name.Equals(commands[2])) ? user.Accesses.FirstOrDefault(x => x.Access.Name.Equals(commands[2])) : user.Pendings.FirstOrDefault(x => x.Access.Name.Equals(commands[2]));
@@ -100,7 +137,7 @@ namespace Server.System
                                 {
                                     access.Password = commands[5];
                                     result = "611";
-                                    //Store.Users.Save();
+                                    Store.Users.Save();
                                 }
                             }
                         }

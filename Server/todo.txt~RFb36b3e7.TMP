@@ -13,7 +13,7 @@ Liste des commandes :
 	Server :
 		user list														V
 		user add username												V
-		user delete username											V
+		user delete username
 		user active on/off username
 
 		access list
@@ -29,6 +29,7 @@ Liste des commandes :
 
 Error codes :
 
+	user delete username : L'utilisateur n'existe pas, [Demander confirmation avant de le faire]
 	user active on/off username : L'utilisateur n'existe pas, l'utilisateur est déjà actif, l'utilisateur est déjà inactif [Faire gaffe pour les acces]
 
 	access add accessname : L'acces existe déjà, caractères spéciaux interdits
