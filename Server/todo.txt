@@ -1,36 +1,11 @@
-﻿M Faire toutes les commandes (en vérifiant les erreurs possibles)
-M Gestion stockage de données clé valeur
-L Gestion des langues
+﻿M Gestion stockage de données clé valeur
+M Mieux gérer la commandline du serveur.
 H Vérifier avec le client le actif inactif.
+L Gestion des langues
 
-Liste des commandes : 
-	Client :
-		user connect access username password							V
-		user register access username password							V
-		user changepassword access username oldpassword newpassword		V
 
-		errors list														V
 
-	Server :
-		user list														V
-		user add username												V
-		user delete username											V
-		user active on/off username										V
-
-		access list														V
-		access add accessname											V
-		access delete accessname										V
-		access grant accessname username								V
-		access revoke accessname username								V
-		access revokeall username										V	
-
-		help															
-
-		quit															V
-
-Error codes :
-
-	
+V Faire toutes les commandes (en vérifiant les erreurs possibles)
 V Faire les errorcodes (attention aux caractères interdit)
 V Faire le parse avec les split dans le serveur
 V Mettre les " dans le client

@@ -20,7 +20,29 @@ namespace Server.System
             if (source == CommandSource.CommandLine)
             {
                 if (command.Equals("help"))
-                    result = "";
+                    return
+@"  Server :
+    user list
+    user add {username}
+    user delete {username}
+    user active on|off {username}
+    
+    access list
+    access add {accessname}
+    access delete {accessname}
+    access grant {accessname} {username}
+    access revoke {accessname} {username}
+    access revokeall {username}
+    
+    help
+    quit
+
+  Client :
+    user connect access {username} {password}
+    user register access {username} {password}
+    user changepassword access {username} {oldpassword} {newpassword}
+    
+    errors list";
                 else if (command.Equals("quit"))
                     result = "";
                 else if (command.Equals("user list"))
