@@ -36,7 +36,7 @@ namespace Server.System
                 if (String.IsNullOrEmpty(data)) throw new Exception();
                 data = data.Decrypt();
 
-                Console.WriteLine($"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()} : {data.LineFormat()}");
+                //Console.WriteLine($"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()} : {data.LineFormat()}");
                 client.Send(Encoding.UTF8.GetBytes(Command.ProcessCommand(client, data, CommandSource.Socket).Encrypt()));
             }
             catch (Exception)

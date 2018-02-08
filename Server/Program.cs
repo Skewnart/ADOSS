@@ -38,13 +38,19 @@ namespace Server
             }
 
             string command = "";
-            while (!(command = Console.ReadLine()).Equals("quit"))
+            do
             {
-                string result = Command.ProcessCommand(null, command, CommandSource.CommandLine);
-                if (!String.IsNullOrEmpty(result))
-                    Console.WriteLine(result);
-            }
-            
+                Console.Write("# ");
+                command = Console.ReadLine();
+                if (!command.Equals("quit") && !String.IsNullOrEmpty(command))
+                {
+                    string result = Command.ProcessCommand(null, command, CommandSource.CommandLine);
+                    if (!String.IsNullOrEmpty(result))
+                        Console.WriteLine(result);
+                }
+            } while (!command.Equals("quit"));
+
+
             listener.Close();
         }
     }

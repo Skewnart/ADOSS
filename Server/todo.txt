@@ -1,8 +1,8 @@
-﻿H Mieux gérer la commandline du serveur.
+﻿H Commande viewlast "Local/Online" {number}
 M Gestion stockage de données clé valeur
 L Gestion des langues
 
-
+V Mieux gérer la commandline du serveur.
 V Vérifier avec le client le actif inactif.
 V Faire toutes les commandes (en vérifiant les erreurs possibles)
 V Faire les errorcodes (attention aux caractères interdit)
