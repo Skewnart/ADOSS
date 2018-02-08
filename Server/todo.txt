@@ -26,7 +26,7 @@ Liste des commandes :
 
 		help															
 
-		quit															
+		quit															V
 
 Error codes :
 
