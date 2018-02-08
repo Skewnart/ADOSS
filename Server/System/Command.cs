@@ -358,12 +358,12 @@ namespace Server.System
             new ErrorCode(611, "Le mot de passe a bien changé.","Password successfully changed."),
             new ErrorCode(612, "L'utilisateur n'est pas actif.","User is not active."),
 
-            new ErrorCode(701, "L'utilisateur existe déjà.", "User already exist."),
-            new ErrorCode(702, "Le service existe déjà.", "Service already exist."),
-            new ErrorCode(703, "Le service n'existe pas.", "Service does not exist."),
-            new ErrorCode(704, "L'utilisateur n'a pas l'accès.", "User does not have this access."),
-            new ErrorCode(704, "L'utilisateur a déjà l'accès.", "User already have this access."),
-            new ErrorCode(705, "L'utilisateur n'a aucun service.", "User does not have any service."),
+            new ErrorCode(701, "L'utilisateur existe déjà.", "User already exist.", false),
+            new ErrorCode(702, "Le service existe déjà.", "Service already exist.", false),
+            new ErrorCode(703, "Le service n'existe pas.", "Service does not exist.", false),
+            new ErrorCode(704, "L'utilisateur n'a pas l'accès.", "User does not have this access.", false),
+            new ErrorCode(704, "L'utilisateur a déjà l'accès.", "User already have this access.", false),
+            new ErrorCode(705, "L'utilisateur n'a aucun service.", "User does not have any service.", false)
         };
 
         public static string GetDescriptionFromCode(int code, string lang = "fr")

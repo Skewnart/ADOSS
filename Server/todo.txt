@@ -1,10 +1,9 @@
-﻿M Gestion stockage de données clé valeur
-M Mieux gérer la commandline du serveur.
-H Vérifier avec le client le actif inactif.
+﻿H Mieux gérer la commandline du serveur.
+M Gestion stockage de données clé valeur
 L Gestion des langues
 
 
-
+V Vérifier avec le client le actif inactif.
 V Faire toutes les commandes (en vérifiant les erreurs possibles)
 V Faire les errorcodes (attention aux caractères interdit)
 V Faire le parse avec les split dans le serveur
