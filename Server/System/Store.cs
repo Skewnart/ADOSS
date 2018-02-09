@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using Server.System.Cryptography;
 
 namespace Server.System
 {
@@ -23,11 +24,11 @@ namespace Server.System
 
             if (File.Exists(ACCESSFILE))
             {
-                Accesses = File.ReadAllLines(ACCESSFILE).Select(x => new Access(x.Decrypt())).ToList();
+                Accesses = File.ReadAllLines(ACCESSFILE).Select(x => new Access(Tornado.Decrypt(x))).ToList();
             }
             if (File.Exists(USERFILE))
             {
-                Users = File.ReadAllLines(USERFILE).Select(x => new User(x.Decrypt())).ToList();
+                Users = File.ReadAllLines(USERFILE).Select(x => new User(Tornado.Decrypt(x))).ToList();
             }
         }
 
@@ -35,7 +36,7 @@ namespace Server.System
         {
             string file = (typeof(T) == typeof(User) ? USERFILE : (typeof(T) == typeof(Access) ? ACCESSFILE : null));
                 if (!String.IsNullOrEmpty(file))
-            File.WriteAllLines(file, list.Select(x => x.Save().Encrypt()).ToArray());
+            File.WriteAllLines(file, list.Select(x => Tornado.Encrypt(x.Save())).ToArray());
         }
     }
 }

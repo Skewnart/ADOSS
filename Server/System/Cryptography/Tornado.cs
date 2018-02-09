@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Text;
 
-namespace Server.System
+namespace Server.System.Cryptography
 {
-    public static class Cryptography
+    public static class Tornado
     {
         private static string ALPHABET = "abcdefghijklmnopq:rstuvwxyzABCDEFGH*IJKLMNOPQRSTUVWXYZ,()\';=1234567890|$ ";
 
-        public static string Encrypt(this string plaintext)
+        public static string Encrypt(string plaintext)
         {
             char[] arr = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond).ToString().ToCharArray();
             Array.Reverse(arr);
@@ -20,7 +20,7 @@ namespace Server.System
             return Transform(Transform(Transform($"{code2}ZZZ{Transform(Transform(Transform(plaintext, code, true), code2, true), code, true)}", "619743", true), "164792", true), "986521", true);
         }
 
-        public static string Decrypt(this string encrypted)
+        public static string Decrypt(string encrypted)
         {
             string mid = Transform(Transform(Transform(encrypted, "986521", false), "164792", false), "619743", false);
 

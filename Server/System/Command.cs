@@ -1,5 +1,6 @@
 ﻿using Server.Extensions;
 using Server.Models;
+using Server.System.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,7 +165,7 @@ namespace Server.System
                                 } while (key.Key != ConsoleKey.Enter);
 
                                 Console.WriteLine();
-                                user.Accesses.Add(new UserAccess(access, pass.Encrypt()));
+                                user.Accesses.Add(new UserAccess(access, Tornado.Encrypt(pass)));
                             }
 
                             Store.Users.Save();
@@ -244,7 +245,7 @@ namespace Server.System
                         {
                             UserAccess access = user.Accesses.First(x => x.Access.Name.Equals(commands[2]));
 
-                            if (access.Password.Decrypt().Equals(commands[4].Decrypt()))
+                            if (Tornado.Decrypt(access.Password).Equals(Tornado.Decrypt(commands[4])))
                                 result = $"608;;{GenerateToken(client, user, access.Access)}";
                             else
                                 result = "607";
@@ -288,8 +289,8 @@ namespace Server.System
                         else
                         {
                             UserAccess access = user.Accesses.Any(x => x.Access.Name.Equals(commands[2])) ? user.Accesses.FirstOrDefault(x => x.Access.Name.Equals(commands[2])) : user.Pendings.FirstOrDefault(x => x.Access.Name.Equals(commands[2]));
-                            if (!access.Password.Decrypt().Equals(commands[4].Decrypt())) result = "607";
-                            else if (commands[4].Decrypt().Equals(commands[5].Decrypt())) result = "610";
+                            if (!Tornado.Decrypt(access.Password).Equals(Tornado.Decrypt(commands[4]))) result = "607";
+                            else if (Tornado.Decrypt(commands[4]).Equals(Tornado.Decrypt(commands[5]))) result = "610";
                             else
                             {
                                 access.Password = commands[5];
@@ -314,7 +315,7 @@ namespace Server.System
 
         public static string GenerateToken(Socket client, User user, Access access)
         {
-            return $"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()};;{DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss")};;{user.Username};;{access.Name}".Encrypt();
+            return Tornado.Encrypt($"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()};;{DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss")};;{user.Username};;{access.Name}");
         }
     }
 

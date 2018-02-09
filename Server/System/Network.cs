@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.System.Cryptography;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -34,10 +35,10 @@ namespace Server.System
                 data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
 
                 if (String.IsNullOrEmpty(data)) throw new Exception();
-                data = data.Decrypt();
+                data = Tornado.Decrypt(data);
 
                 //Console.WriteLine($"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()} : {data.LineFormat()}");
-                client.Send(Encoding.UTF8.GetBytes(Command.ProcessCommand(client, data, CommandSource.Socket).Encrypt()));
+                client.Send(Encoding.UTF8.GetBytes(Tornado.Encrypt(Command.ProcessCommand(client, data, CommandSource.Socket))));
             }
             catch (Exception)
             {

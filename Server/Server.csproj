@@ -48,7 +48,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserAccess.cs" />
     <Compile Include="System\Command.cs" />
-    <Compile Include="System\Cryptography.cs" />
+    <Compile Include="System\Cryptography\Tornado.cs" />
     <Compile Include="System\Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

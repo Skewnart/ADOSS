@@ -1,6 +1,9 @@
 ﻿H Commande viewlast "Local/Online" {number}
+H Implémenter le chiffrement asymétrique pour le partage du projet.
 M Gestion stockage de données clé valeur
 L Gestion des langues
+
+
 
 V Mieux gérer la commandline du serveur.
 V Vérifier avec le client le actif inactif.
