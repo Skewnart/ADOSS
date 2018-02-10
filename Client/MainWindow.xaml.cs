@@ -80,6 +80,8 @@ namespace Client
 
         public MainWindow()
         {
+            RSA.LoadKeys();
+
             InitializeComponent();
             this.textbox_server.Focus();
         }
@@ -126,15 +128,18 @@ namespace Client
 
         private string SendMessage(string message)
         {
-            byte[] bytes = new byte[1024];
-            byte[] msg = Encoding.UTF8.GetBytes(message.Encrypt());
-
             if (this.Connect())
             {
+                byte[] bytesPub = new byte[1024];
+                int bytesRec = Server.Receive(bytesPub);
+                string pubServ = Encoding.UTF8.GetString(bytesPub, 0, bytesRec);
+
+                byte[] msg = RSA.Encrypt(message, pubServ);
                 int bytesSent = Server.Send(msg);
 
-                int bytesRec = Server.Receive(bytes);
-                return Encoding.UTF8.GetString(bytes, 0, bytesRec).Decrypt();
+                byte[] bytes = new byte[65536];
+                bytesRec = Server.Receive(bytes);
+                return RSA.Decrypt(bytes, bytesRec).Message;
             }
 
             //Server.Shutdown(SocketShutdown.Both);
@@ -145,12 +150,12 @@ namespace Client
 
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
-            this.DoAction($"user connect \"{this.Access}\" \"{this.Username}\" \"{this.Password.Encrypt()}\"");
+            this.DoAction($"user connect \"{this.Access}\" \"{this.Username}\" \"{this.Password}\"");
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            this.DoAction($"user register \"{this.Access}\" \"{this.Username}\" \"{this.Password.Encrypt()}\"");
+            this.DoAction($"user register \"{this.Access}\" \"{this.Username}\" \"{this.Password}\"");
         }
 
         private void DoAction(string request)
@@ -172,7 +177,7 @@ namespace Client
         private void Change_Click(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(this.NewPassword))
-                this.DoAction($"user changepassword {this.Access} {this.Username} {this.Password.Encrypt()} {this.NewPassword.Encrypt()}");
+                this.DoAction($"user changepassword {this.Access} {this.Username} {this.Password} {this.NewPassword}");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Server.System.Cryptography;
 using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -26,19 +27,18 @@ namespace Server.System
 
         public static void HandleClient(Socket client)
         {
-            string data = null;
-
             try
             {
-                byte[] bytes = new byte[1024];
+                client.Send(Encoding.UTF8.GetBytes($"{RSA.publickey}"));
+                
+                byte[] bytes = new byte[2048];
                 int bytesRec = client.Receive(bytes);
-                data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                RSAResponse response = RSA.Decrypt(bytes, bytesRec);
 
-                if (String.IsNullOrEmpty(data)) throw new Exception();
-                data = Tornado.Decrypt(data);
+                if (String.IsNullOrEmpty(response.Message)) throw new Exception();
 
-                //Console.WriteLine($"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()} : {data.LineFormat()}");
-                client.Send(Encoding.UTF8.GetBytes(Tornado.Encrypt(Command.ProcessCommand(client, data, CommandSource.Socket))));
+                //data = RSA.Decrypt(datarecieved[1]);
+                client.Send(RSA.Encrypt(Command.ProcessCommand(client, response.Message, CommandSource.Socket), response.PublicKey));
             }
             catch (Exception)
             {

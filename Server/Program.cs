@@ -1,4 +1,5 @@
 ﻿using Server.System;
+using Server.System.Cryptography;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -12,6 +13,7 @@ namespace Server
         {
             Global.LoadConfig();
             Log.LoadLogs();
+            RSA.LoadKeys();
             Store.LoadDatas();
             Global.DisplayTitle();
 

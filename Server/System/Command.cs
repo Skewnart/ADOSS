@@ -245,7 +245,7 @@ namespace Server.System
                         {
                             UserAccess access = user.Accesses.First(x => x.Access.Name.Equals(commands[2]));
 
-                            if (Tornado.Decrypt(access.Password).Equals(Tornado.Decrypt(commands[4])))
+                            if (Tornado.Decrypt(access.Password).Equals(commands[4]))
                                 result = $"608;;{GenerateToken(client, user, access.Access)}";
                             else
                                 result = "607";
@@ -269,7 +269,7 @@ namespace Server.System
                         if (!user.Active) result = "612";
                         else
                         {
-                            user.Pendings.Add(new UserAccess(Store.Accesses.FirstOrDefault(x => x.Name.Equals(commands[2])), commands[4]));
+                            user.Pendings.Add(new UserAccess(Store.Accesses.FirstOrDefault(x => x.Name.Equals(commands[2])), Tornado.Encrypt(commands[4])));
                             result = "606";
 
                             Store.Users.Save();
@@ -289,11 +289,11 @@ namespace Server.System
                         else
                         {
                             UserAccess access = user.Accesses.Any(x => x.Access.Name.Equals(commands[2])) ? user.Accesses.FirstOrDefault(x => x.Access.Name.Equals(commands[2])) : user.Pendings.FirstOrDefault(x => x.Access.Name.Equals(commands[2]));
-                            if (!Tornado.Decrypt(access.Password).Equals(Tornado.Decrypt(commands[4]))) result = "607";
-                            else if (Tornado.Decrypt(commands[4]).Equals(Tornado.Decrypt(commands[5]))) result = "610";
+                            if (!Tornado.Decrypt(access.Password).Equals(commands[4])) result = "607";
+                            else if (Tornado.Decrypt(commands[4]).Equals(commands[5])) result = "610";
                             else
                             {
-                                access.Password = commands[5];
+                                access.Password = Tornado.Encrypt(commands[5]);
                                 result = "611";
                                 Store.Users.Save();
                             }

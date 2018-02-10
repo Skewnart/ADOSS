@@ -48,6 +48,8 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserAccess.cs" />
     <Compile Include="System\Command.cs" />
+    <Compile Include="System\Cryptography\RSA.cs" />
+    <Compile Include="System\Cryptography\RSAResponse.cs" />
     <Compile Include="System\Cryptography\Tornado.cs" />
     <Compile Include="System\Global.cs" />
     <Compile Include="Program.cs" />

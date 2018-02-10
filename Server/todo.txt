@@ -1,10 +1,13 @@
-﻿H Commande viewlast "Local/Online" {number}
-H Implémenter le chiffrement asymétrique pour le partage du projet.
+﻿H Vérifier toutes les commandes avec le chiffrement symétrique des mots de passe
+H Compléter le chargement du serveur (Mettre de nouvelles étapes)
+
+H Commande viewlast "Local/Online" {number}
 M Gestion stockage de données clé valeur
 L Gestion des langues
 
 
 
+V Implémenter le chiffrement asymétrique pour le partage du projet.
 V Mieux gérer la commandline du serveur.
 V Vérifier avec le client le actif inactif.
 V Faire toutes les commandes (en vérifiant les erreurs possibles)
