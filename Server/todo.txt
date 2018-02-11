@@ -1,12 +1,14 @@
-﻿H Vérifier toutes les commandes avec le chiffrement symétrique des mots de passe
-H Compléter le chargement du serveur (Mettre de nouvelles étapes)
-
+﻿H Compléter le chargement du serveur (Mettre de nouvelles étapes)
 H Commande viewlast "Local/Online" {number}
+
+H Mettre en place avec dotnet run
+H Faire le readme
 M Gestion stockage de données clé valeur
 L Gestion des langues
 
 
 
+V Vérifier toutes les commandes avec le chiffrement symétrique des mots de passe
 V Faire le chiffrement asymétrique seulement pour la clé, puis symétrique pour le message
 V Implémenter le chiffrement asymétrique pour le partage du projet.
 V Mieux gérer la commandline du serveur.

@@ -128,7 +128,7 @@ namespace Server.System
                     {
                         User user = Store.Users.First(x => x.Username.Equals(commands[3]));
                         Access access = Store.Accesses.First(x => x.Name.Equals(commands[2]));
-                        if (user.Accesses.Any(x => x.Access == access)) result = ErrorCode.GetDescriptionFromCode(704);
+                        if (user.Accesses.Any(x => x.Access == access)) result = ErrorCode.GetDescriptionFromCode(706);
                         else
                         {
                             if (user.Pendings.Any(x => x.Access == access))
@@ -182,7 +182,7 @@ namespace Server.System
                     {
                         User user = Store.Users.First(x => x.Username.Equals(commands[3]));
                         Access access = Store.Accesses.First(x => x.Name.Equals(commands[2]));
-                        if (!user.Accesses.Any(x => x.Access == access) && !user.Pendings.Any(x => x.Access == access)) result = ErrorCode.GetDescriptionFromCode(703);
+                        if (!user.Accesses.Any(x => x.Access == access) && !user.Pendings.Any(x => x.Access == access)) result = ErrorCode.GetDescriptionFromCode(704);
                         else
                         {
                             Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
@@ -362,9 +362,9 @@ namespace Server.System
             new ErrorCode(701, "L'utilisateur existe déjà.", "User already exist.", false),
             new ErrorCode(702, "Le service existe déjà.", "Service already exist.", false),
             new ErrorCode(703, "Le service n'existe pas.", "Service does not exist.", false),
-            new ErrorCode(704, "L'utilisateur n'a pas l'accès.", "User does not have this access.", false),
-            new ErrorCode(704, "L'utilisateur a déjà l'accès.", "User already have this access.", false),
-            new ErrorCode(705, "L'utilisateur n'a aucun service.", "User does not have any service.", false)
+            new ErrorCode(704, "L'utilisateur n'a pas cet accès.", "User does not have this access.", false),
+            new ErrorCode(705, "L'utilisateur n'a aucun service.", "User does not have any service.", false),
+            new ErrorCode(706, "L'utilisateur a déjà cette accès.", "User already have this access.", false)
         };
 
         public static string GetDescriptionFromCode(int code, string lang = "fr")
