@@ -34,6 +34,8 @@ namespace Server.System
     access grant {accessname} {username}
     access revoke {accessname} {username}
     access revokeall {username}
+
+    viewlast server|client [linenumber]
     
     help
     quit
@@ -221,6 +223,30 @@ namespace Server.System
                         }
                     }
                 }
+                else if (command.StartsWith("viewlast"))
+                {
+                    int res = 10;
+                    bool isNumber = true;
+                    if (commands.Length == 3)
+                        isNumber = int.TryParse(commands[2], out res);
+
+                    if (commands.Length != 2 && commands.Length != 3) result = ErrorCode.GetDescriptionFromCode(602);
+                    else if (!commands[1].Equals("server") && !commands[1].Equals("client")) result = ErrorCode.GetDescriptionFromCode(707);
+                    else if (!isNumber) result = ErrorCode.GetDescriptionFromCode(708);
+                    else if (res < 1) result = ErrorCode.GetDescriptionFromCode(709);
+                    else
+                    {
+                        List<string> logs = null;
+                        if (commands[1].Equals("server"))
+                            logs = Log.localcommands.Skip(Math.Max(0, Log.localcommands.Count - res)).ToList();
+                        else if (commands[1].Equals("client"))
+                            logs = Log.socketcommands.Skip(Math.Max(0, Log.socketcommands.Count - res)).ToList();
+                        logs.Reverse();
+
+                        Console.WriteLine(String.Join("\n", logs));
+                        result = "";
+                    }
+                }
                 else
                 {
                     _logIt = false;
@@ -364,7 +390,10 @@ namespace Server.System
             new ErrorCode(703, "Le service n'existe pas.", "Service does not exist.", false),
             new ErrorCode(704, "L'utilisateur n'a pas cet accès.", "User does not have this access.", false),
             new ErrorCode(705, "L'utilisateur n'a aucun service.", "User does not have any service.", false),
-            new ErrorCode(706, "L'utilisateur a déjà cette accès.", "User already have this access.", false)
+            new ErrorCode(706, "L'utilisateur a déjà cette accès.", "User already have this access.", false),
+            new ErrorCode(707, "Le type de log doit être \"server\" ou \"client\"", "Log type must be \"server\" or \"client\"", false),
+            new ErrorCode(708, "Le paramètre n'est pas un nombre", "Parameter is not a number", false),
+            new ErrorCode(709, "Le nombre renseigné n'est pas valide.", "Given number is not valid", false),
         };
 
         public static string GetDescriptionFromCode(int code, string lang = "fr")

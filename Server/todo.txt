@@ -1,5 +1,4 @@
 ﻿H Compléter le chargement du serveur (Mettre de nouvelles étapes)
-H Commande viewlast "Local/Online" {number}
 
 H Mettre en place avec dotnet run
 H Faire le readme
@@ -8,6 +7,7 @@ L Gestion des langues
 
 
 
+V Commande viewlast "server/client" {number}
 V Vérifier toutes les commandes avec le chiffrement symétrique des mots de passe
 V Faire le chiffrement asymétrique seulement pour la clé, puis symétrique pour le message
 V Implémenter le chiffrement asymétrique pour le partage du projet.
