@@ -7,6 +7,7 @@ L Gestion des langues
 
 
 
+V Faire le chiffrement asymétrique seulement pour la clé, puis symétrique pour le message
 V Implémenter le chiffrement asymétrique pour le partage du projet.
 V Mieux gérer la commandline du serveur.
 V Vérifier avec le client le actif inactif.

@@ -30,18 +30,18 @@ namespace Client
             }
         }
 
-        public static byte[] Encrypt(string message, string pubKey)
+        public static byte[] Encrypt(string message, string pubKey, bool putPublicKey)
         {
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
                 myRijndael.GenerateKey();
                 myRijndael.GenerateIV();
-                string encrypted = Convert.ToBase64String(EncryptStringToBytes(message, myRijndael.Key, myRijndael.IV));
+                string encrypted = Convert.ToBase64String(EncryptStringToBytes((putPublicKey ? $"{publickey};$;{message}" : message), myRijndael.Key, myRijndael.IV));
 
                 string cypherKey = EncryptAsymetricBytesToString(myRijndael.Key, pubKey);
                 string cypherIV = EncryptAsymetricBytesToString(myRijndael.IV, pubKey);
 
-                string tosend = $"{publickey};$;{cypherKey};$;{cypherIV};$;{encrypted}";
+                string tosend = $"{cypherKey};$;{cypherIV};$;{encrypted}";
                 return Encoding.UTF8.GetBytes(tosend);
             }
         }
@@ -53,10 +53,13 @@ namespace Client
 
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
-                myRijndael.Key = DecryptAsymetricBytesFromString(received[1]);
-                myRijndael.IV = DecryptAsymetricBytesFromString(received[2]);
+                myRijndael.Key = DecryptAsymetricBytesFromString(received[0]);
+                myRijndael.IV = DecryptAsymetricBytesFromString(received[1]);
 
-                return new RSAResponse(received[0], DecryptStringFromBytes(Convert.FromBase64String(received[3]), myRijndael.Key, myRijndael.IV));
+                string response = DecryptStringFromBytes(Convert.FromBase64String(received[2]), myRijndael.Key, myRijndael.IV);
+                string[] responses = response.Split(new string[] { ";$;" }, StringSplitOptions.None);
+
+                return new RSAResponse(responses.Length > 1 ? responses[0] : null, responses.Length > 1 ? responses[1] : responses[0]);
             }
         }
 

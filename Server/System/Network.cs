@@ -29,16 +29,15 @@ namespace Server.System
         {
             try
             {
-                client.Send(Encoding.UTF8.GetBytes($"{RSA.publickey}"));
+                client.Send(Encoding.UTF8.GetBytes(RSA.publickey));
                 
                 byte[] bytes = new byte[2048];
                 int bytesRec = client.Receive(bytes);
                 RSAResponse response = RSA.Decrypt(bytes, bytesRec);
 
                 if (String.IsNullOrEmpty(response.Message)) throw new Exception();
-
-                //data = RSA.Decrypt(datarecieved[1]);
-                client.Send(RSA.Encrypt(Command.ProcessCommand(client, response.Message, CommandSource.Socket), response.PublicKey));
+                
+                client.Send(RSA.Encrypt(Command.ProcessCommand(client, response.Message, CommandSource.Socket), response.PublicKey, false));
             }
             catch (Exception)
             {

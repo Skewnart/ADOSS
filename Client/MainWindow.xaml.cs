@@ -134,7 +134,7 @@ namespace Client
                 int bytesRec = Server.Receive(bytesPub);
                 string pubServ = Encoding.UTF8.GetString(bytesPub, 0, bytesRec);
 
-                byte[] msg = RSA.Encrypt(message, pubServ);
+                byte[] msg = RSA.Encrypt(message, pubServ, true);
                 int bytesSent = Server.Send(msg);
 
                 byte[] bytes = new byte[65536];
