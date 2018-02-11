@@ -16,8 +16,8 @@ namespace Server.System
         private static readonly string LOCALCMDDLOG = Path.Combine(LOGPATH, "localcmd.log");
         private static readonly string SOCKETCMDLOG = Path.Combine(LOGPATH, "socketcmd.log");
 
-        private static List<string> localcommands = new List<string>();
-        private static List<string> socketcommands = new List<string>();
+        public static List<string> localcommands = new List<string>();
+        public static List<string> socketcommands = new List<string>();
 
         public static void LoadLogs()
         {
@@ -27,7 +27,7 @@ namespace Server.System
             if (File.Exists(LOCALCMDDLOG))
                 localcommands = File.ReadAllLines(LOCALCMDDLOG).ToList();
             if (File.Exists(SOCKETCMDLOG))
-                localcommands = File.ReadAllLines(SOCKETCMDLOG).ToList();
+                socketcommands = File.ReadAllLines(SOCKETCMDLOG).ToList();
         }
 
         public static void WriteLog(this string content, CommandSource type)
