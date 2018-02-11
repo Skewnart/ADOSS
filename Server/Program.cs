@@ -11,13 +11,22 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            Global.LoadConfig();
-            Log.LoadLogs();
-            RSA.LoadKeys();
-            Store.LoadDatas();
             Global.DisplayTitle();
+            Console.Write("\nInitialisation : ");
 
-            Console.Write("\nInitialisation... ");
+            Console.Write("Configurations");
+            Global.LoadConfig();
+
+            Console.Write(", Logs");
+            Log.LoadLogs();
+
+            Console.Write(", Système de chiffremnt");
+            RSA.LoadKeys();
+
+            Console.Write(", Données");
+            Store.LoadDatas();
+
+            Console.Write(", Mise en réseau");
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, Global.PORT);
 
             Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -28,8 +37,7 @@ namespace Server
                 listener.Bind(localEndPoint);
                 listener.Listen(Global.MAXCONNECTIONS);
 
-                Console.WriteLine("  terminé.");
-                Console.WriteLine($"En écoute sur le port {Global.PORT}.\n");
+                Console.WriteLine($"\n\nEn écoute sur le port {Global.PORT}.\n");
 
                 myNewThread = new Thread(() => Network.Listen(listener));
                 myNewThread.Start();
