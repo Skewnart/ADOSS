@@ -1,0 +1,4 @@
+port = 11000
+#maxconn = 10
+#maxstr = 50
+#loglength = 1000

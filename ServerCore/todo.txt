@@ -1,0 +1,23 @@
+﻿H Mettre en place avec dotnet run
+M Gestion stockage de données orientée document
+L Gestion des langues
+L Faire le readme sur GIT
+
+
+
+V Compléter le chargement du serveur (Mettre de nouvelles étapes)
+V Commande viewlast "server/client" {number}
+V Vérifier toutes les commandes avec le chiffrement symétrique des mots de passe
+V Faire le chiffrement asymétrique seulement pour la clé, puis symétrique pour le message
+V Implémenter le chiffrement asymétrique pour le partage du projet.
+V Mieux gérer la commandline du serveur.
+V Vérifier avec le client le actif inactif.
+V Faire toutes les commandes (en vérifiant les erreurs possibles)
+V Faire les errorcodes (attention aux caractères interdit)
+V Faire le parse avec les split dans le serveur
+V Mettre les " dans le client
+V Faire le token
+V Log System
+V Store system
+V Manque le chiffrement des mots de passe
+V Faire le système d'error codes

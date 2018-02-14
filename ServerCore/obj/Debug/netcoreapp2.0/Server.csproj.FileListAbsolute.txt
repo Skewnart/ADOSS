@@ -1,0 +1,11 @@
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\obj\Debug\netcoreapp2.0\Server.csprojResolveAssemblyReference.cache
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\obj\Debug\netcoreapp2.0\Server.csproj.CoreCompileInputs.cache
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\obj\Debug\netcoreapp2.0\Server.AssemblyInfoInputs.cache
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\obj\Debug\netcoreapp2.0\Server.AssemblyInfo.cs
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\bin\Debug\netcoreapp2.0\Server.deps.json
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\bin\Debug\netcoreapp2.0\Server.runtimeconfig.json
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\bin\Debug\netcoreapp2.0\Server.runtimeconfig.dev.json
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\bin\Debug\netcoreapp2.0\Server.dll
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\bin\Debug\netcoreapp2.0\Server.pdb
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\obj\Debug\netcoreapp2.0\Server.dll
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\obj\Debug\netcoreapp2.0\Server.pdb

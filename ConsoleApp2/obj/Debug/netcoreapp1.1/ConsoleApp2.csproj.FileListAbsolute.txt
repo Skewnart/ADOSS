@@ -1,0 +1,9 @@
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\bin\Debug\netcoreapp1.1\ConsoleApp2.deps.json
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\bin\Debug\netcoreapp1.1\ConsoleApp2.runtimeconfig.json
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\bin\Debug\netcoreapp1.1\ConsoleApp2.runtimeconfig.dev.json
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\bin\Debug\netcoreapp1.1\ConsoleApp2.dll
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\bin\Debug\netcoreapp1.1\ConsoleApp2.pdb
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\obj\Debug\netcoreapp1.1\ConsoleApp2.csprojResolveAssemblyReference.cache
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\obj\Debug\netcoreapp1.1\ConsoleApp2.AssemblyInfo.cs
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\obj\Debug\netcoreapp1.1\ConsoleApp2.dll
+C:\Users\Corentin\GitLab\ADOSS\ConsoleApp2\obj\Debug\netcoreapp1.1\ConsoleApp2.pdb

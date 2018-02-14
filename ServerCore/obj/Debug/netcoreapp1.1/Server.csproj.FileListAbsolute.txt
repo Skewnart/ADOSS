@@ -1,0 +1,5 @@
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\bin\Debug\netcoreapp1.1\Server.deps.json
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\bin\Debug\netcoreapp1.1\Server.runtimeconfig.json
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\bin\Debug\netcoreapp1.1\Server.runtimeconfig.dev.json
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\obj\Debug\netcoreapp1.1\Server.csprojResolveAssemblyReference.cache
+C:\Users\Corentin\GitLab\ADOSS\ServerCore\obj\Debug\netcoreapp1.1\Server.AssemblyInfo.cs
