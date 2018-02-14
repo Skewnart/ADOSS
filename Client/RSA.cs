@@ -37,11 +37,10 @@ namespace Client
                 myRijndael.GenerateKey();
                 myRijndael.GenerateIV();
                 string encrypted = Convert.ToBase64String(EncryptStringToBytes((putPublicKey ? $"{publickey};$;{message}" : message), myRijndael.Key, myRijndael.IV));
-
                 string cypherKey = EncryptAsymetricBytesToString(myRijndael.Key, pubKey);
                 string cypherIV = EncryptAsymetricBytesToString(myRijndael.IV, pubKey);
 
-                string tosend = $"{cypherKey};$;{cypherIV};$;{encrypted}";
+                string tosend = $"{cypherKey};$;{cypherIV};$;{encrypted}..";
                 return Encoding.UTF8.GetBytes(tosend);
             }
         }
@@ -49,6 +48,8 @@ namespace Client
         public static RSAResponse Decrypt(byte[] bytes, int bytesLength)
         {
             string receivedbytes = Encoding.UTF8.GetString(bytes, 0, bytesLength);
+            receivedbytes = receivedbytes.Substring(0, receivedbytes.Length - 2);
+
             string[] received = receivedbytes.Split(new string[] { ";$;" }, StringSplitOptions.None);
 
             using (RijndaelManaged myRijndael = new RijndaelManaged())

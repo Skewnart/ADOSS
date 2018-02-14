@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Serialization;
@@ -41,7 +42,7 @@ namespace Server.System.Cryptography
                 string cypherKey = EncryptAsymetricBytesToString(myRijndael.Key, pubKey);
                 string cypherIV = EncryptAsymetricBytesToString(myRijndael.IV, pubKey);
 
-                string tosend = $"{cypherKey};$;{cypherIV};$;{encrypted}";
+                string tosend = $"{cypherKey};$;{cypherIV};$;{encrypted}..";
                 return Encoding.UTF8.GetBytes(tosend);
             }
         }
@@ -49,13 +50,15 @@ namespace Server.System.Cryptography
         public static RSAResponse Decrypt(byte[] bytes, int bytesLength)
         {
             string receivedbytes = Encoding.UTF8.GetString(bytes, 0, bytesLength);
+            receivedbytes = receivedbytes.Substring(0, receivedbytes.Length - 2);
+
             string[] received = receivedbytes.Split(new string[] { ";$;" }, StringSplitOptions.None);
 
             using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
                 myRijndael.Key = DecryptAsymetricBytesFromString(received[0]);
                 myRijndael.IV = DecryptAsymetricBytesFromString(received[1]);
-
+                 
                 string response = DecryptStringFromBytes(Convert.FromBase64String(received[2]), myRijndael.Key, myRijndael.IV);
                 string[] responses = response.Split(new string[] { ";$;" }, StringSplitOptions.None);
 

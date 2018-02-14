@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace Client
@@ -98,8 +99,16 @@ namespace Client
             {
                 // Establish the remote endpoint for the socket.
                 // This example uses port 11000 on the local computer.
-                IPHostEntry ipHostInfo = Dns.Resolve(this.ServerPath);
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
+                IPAddress ipAddress = null;
+                if (Regex.IsMatch(this.ServerPath, @"^([0-2]?([0-9]{1,2})\.){3}([0-2]?([0-9]{1,2}))$"))
+                    ipAddress = new IPAddress(this.ServerPath.Split(new string[] { "." }, StringSplitOptions.None).Select(x => byte.Parse(x)).ToArray());
+                else
+                {
+
+                    IPHostEntry ipHostInfo = Dns.Resolve(this.ServerPath);
+                    ipAddress = ipHostInfo.AddressList[0];
+                }
+
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
 
                 Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -117,6 +126,8 @@ namespace Client
                     MessageBox.Show($"Le serveur n'est pas à l'écoute", "Problème", MessageBoxButton.OK, MessageBoxImage.Error);
                 else if (se.SocketErrorCode == SocketError.HostNotFound)
                     MessageBox.Show($"L'adresse est inateignable", "Problème", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (se.SocketErrorCode == SocketError.ConnectionRefused)
+                    MessageBox.Show($"Le serveur a refusé la connexion", "Problème", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
@@ -136,7 +147,6 @@ namespace Client
 
                 byte[] msg = RSA.Encrypt(message, pubServ, true);
                 int bytesSent = Server.Send(msg);
-
                 byte[] bytes = new byte[65536];
                 bytesRec = Server.Receive(bytes);
                 return RSA.Decrypt(bytes, bytesRec).Message;
