@@ -59,8 +59,7 @@ namespace Server
                         Console.WriteLine(result);
                 }
             } while (!command.Equals("quit"));
-
-
+            
             listener.Close();
         }
     }

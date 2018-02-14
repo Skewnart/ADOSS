@@ -75,13 +75,13 @@ namespace Server.System.Cryptography
             byte[] encrypted;
             // Create an RijndaelManaged object
             // with the specified key and IV.
-            using (RijndaelManaged rijAlg = new RijndaelManaged())
+            using (RijndaelManaged myRijndael = new RijndaelManaged())
             {
-                rijAlg.Key = Key;
-                rijAlg.IV = IV;
+                myRijndael.Key = Key;
+                myRijndael.IV = IV;
 
                 // Create a decrytor to perform the stream transform.
-                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+                ICryptoTransform encryptor = myRijndael.CreateEncryptor(myRijndael.Key, myRijndael.IV);
 
                 // Create the streams used for encryption.
                 using (MemoryStream msEncrypt = new MemoryStream())

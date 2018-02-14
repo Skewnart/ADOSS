@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Server.System
 {
@@ -10,7 +11,7 @@ namespace Server.System
         public static int MAXCONNECTIONS = 10;
         private static int MAXSTRLENGTH = 50;
 
-        private static readonly string CONFIGPATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config");
+        private static readonly string CONFIGPATH = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config");
 
         public static string LineFormat(this string str)
         {
@@ -50,7 +51,7 @@ namespace Server.System
         {
             if (File.Exists(CONFIGPATH))
             {
-                string[] lines = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config"));
+                string[] lines = File.ReadAllLines(CONFIGPATH);
                 foreach(string line in lines.Where(x => !x.StartsWith("#")))
                 {
                     string[] values = line.Split(new string[] { "=" }, StringSplitOptions.None).Select(x => x.Trim()).ToArray();
