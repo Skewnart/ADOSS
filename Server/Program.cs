@@ -12,21 +12,25 @@ namespace Server
         static void Main(string[] args)
         {
             Global.DisplayTitle();
-            Console.Write("\nInitialisation : ");
+            Console.WriteLine("\nInitialisation : ");
 
-            Console.Write("Configurations");
+            Console.Write("{0, -30}","\tConfiguration...");
             Global.LoadConfig();
+            Console.WriteLine("ok");
 
-            Console.Write(", Logs");
+            Console.Write("{0, -30}", "\tLogs...");
             Log.LoadLogs();
-
-            Console.Write(", Système de chiffremnt");
+            Console.WriteLine("ok");
+            
+            Console.Write("{0, -30}", "\tSystème de chiffrement...");
             RSA.LoadKeys();
+            Console.WriteLine("ok");
 
-            Console.Write(", Données");
+            Console.Write("{0, -30}", "\tDonnées...");
             Store.LoadDatas();
-
-            Console.Write(", Mise en réseau");
+            Console.WriteLine("ok");
+            
+            Console.Write("{0, -30}", "\tMise en réseau...");
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, Global.PORT);
 
             Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -36,8 +40,9 @@ namespace Server
             {
                 listener.Bind(localEndPoint);
                 listener.Listen(Global.MAXCONNECTIONS);
+                Console.WriteLine("ok\n");
 
-                Console.WriteLine($"\n\nEn écoute sur le port {Global.PORT}.\n");
+                Console.WriteLine($"En écoute sur le port {Global.PORT}.\n");
 
                 myNewThread = new Thread(() => Network.Listen(listener));
                 myNewThread.Start();

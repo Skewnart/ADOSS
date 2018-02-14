@@ -20,30 +20,32 @@ namespace Server.System
 
         public static void DisplayTitle()
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(@"__   __");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(@" ______ _____  ___ ______ ___________");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(@"\ \ / /");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(@"| ___ \  ___|/ _ \|  _  \  ___| ___ \");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(@" \ V / ");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(@"| |_/ / |__ / /_\ \ | | | |__ | |_/ /");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(@" /   \ ");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(@"|    /|  __||  _  | | | |  __||    / ");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(@"/ /^\ \");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(@"| |\ \| |___| | | | |/ /| |___| |\ \");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(@"\/   \/");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(@"\_| \_\____/\_| |_/___/ \____/\_| \_|");
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(@"  ___ ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(@"______ _____ _____ _____ ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(@" / _ \");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(@"|  _  \  _  /  ___/  ___|");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(@"/ /_\ \");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(@" | | | | | \ `--.\ `--. ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(@"|  _  |");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(@" | | | | | |`--. \`--. \");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(@"| | | |");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(@" |/ /\ \_/ /\__/ /\__/ /");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(@"\_| |_/");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(@"___/  \___/\____/\____/ ");
             Console.ResetColor();
         }
 

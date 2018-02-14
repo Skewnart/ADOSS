@@ -1,10 +1,9 @@
-﻿H Mettre en place avec dotnet run
-M Gestion stockage de données orientée document
+﻿M Gestion stockage de données orientée document
 L Gestion des langues
 L Faire le readme sur GIT
 
 
-
+V Mettre en place avec dotnet run
 V Compléter le chargement du serveur (Mettre de nouvelles étapes)
 V Commande viewlast "server/client" {number}
 V Vérifier toutes les commandes avec le chiffrement symétrique des mots de passe
