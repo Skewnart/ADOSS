@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525"
+        Title="MainWindow" Height="496.323" Width="525"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
@@ -32,9 +32,20 @@
         <Button VerticalAlignment="Top" Height="30" Margin="0, 130, 0, 0" Content="Sign in" Click="SignIn_Click"/>
         <Button VerticalAlignment="Top" Height="30" Margin="0, 160, 0, 0" Content="Register" Click="Register_Click"/>
 
-        <TextBox VerticalAlignment="Top" Height="30" Margin="0, 210, 0, 0" Text="{Binding NewPassword}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label VerticalAlignment="Top" HorizontalAlignment="Left" Content="New password" Margin="0, 210, 0, 0" Height="30"/>
+        <TextBox VerticalAlignment="Top" Height="30" Margin="100, 210, 0, 0" Text="{Binding NewPassword}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <Button VerticalAlignment="Top" Height="30" Margin="0, 240, 0, 0" Content="Change Password" Click="Change_Click"/>
 
-        <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Result}"/>
+        <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 300, 0, 0" Content="{Binding Result}"/>
+
+        <Label VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0, 330, 0, 0" Content="Key :"/>
+        <Label VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0, 355, 0, 0" Content="String value :"/>
+        <TextBox VerticalAlignment="Top" Margin="100, 330, 0, 0" Height="25" Text="{Binding Key}" VerticalContentAlignment="Center"/>
+        <TextBox VerticalAlignment="Top" Margin="100, 355, 0, 0" Height="50" Text="{Binding Val}" TextWrapping="Wrap" AcceptsReturn="True"/>
+        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0, 405, 0, 0" Content="GET" Width="100" Height="25" Click="GET_Click"/>
+        <Button VerticalAlignment="Top" Margin="100, 405, 0, 0" Content="SET" Height="25" Click="SET_Click"/>
+        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0, 430, 0, 0" Content="DEL KEY" Width="100" Height="25" Click="DEL_Click"/>
+        <Button VerticalAlignment="Top" Margin="100, 430, 0, 0" Content="DEL ALL KEYS" Height="25" Click="DELALL_Click"/>
+
     </Grid>
 </Window>

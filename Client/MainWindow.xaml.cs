@@ -15,7 +15,7 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private string serverPath;
+        private string serverPath = "127.0.0.1";
         public string ServerPath
         {
             get { return serverPath; }
@@ -75,6 +75,24 @@ namespace Client
                 OnPropertyChanged("Result");
             }
         }
+        private string key;
+        public string Key
+        {
+            get { return key; }
+            set { key = value;
+                OnPropertyChanged("Key");
+            }
+        }
+        private string val;
+        public string Val
+        {
+            get { return val; }
+            set { val = value;
+                OnPropertyChanged("Val");
+            }
+        }
+        public string Token { get; set; } = null;
+
 
         public List<ErrorCode> ErrorCodes { get; set; } = new List<ErrorCode>();
         public Socket Server { get; set; } = null;
@@ -181,6 +199,9 @@ namespace Client
             {
                 string[] result = this.SendMessage(request).Split(new string[] { ";;" }, StringSplitOptions.None);
                 this.Result = this.ErrorCodes.First(x => x.Code.Equals(result[0])).FrenchDesc;
+
+                if (request.StartsWith("user connect") && result[0].Equals("608") && result.Length == 2)
+                    this.Token = result[1];
             }
         }
 
@@ -188,6 +209,38 @@ namespace Client
         {
             if (!String.IsNullOrEmpty(this.NewPassword))
                 this.DoAction($"user changepassword {this.Access} {this.Username} {this.Password} {this.NewPassword}");
+        }
+
+        private void GET_Click(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
+            else if (String.IsNullOrEmpty(this.Key)) Result = "Il faut mettre une clé pour le GET";
+            else
+            {
+                this.DoAction($"get \"{this.Key}\" \"{this.Token}\"");
+            }
+        }
+
+        private void SET_Click(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
+            else if (String.IsNullOrEmpty(this.Key)) Result = "Il faut mettre une clé pour le SET";
+            else if (String.IsNullOrEmpty(this.Val)) Result = "Il faut mettre une valeur pour le SET";
+            else
+            {
+                this.DoAction($"set \"{this.Key}\" \"{this.Val}\" \"{this.Token}\"");
+            }
+        }
+
+        private void DEL_Click(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
+            else if (String.IsNullOrEmpty(this.Key)) Result = "Il faut mettre une clé pour le DEL";
+        }
+
+        private void DELALL_Click(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
         }
     }
 }
