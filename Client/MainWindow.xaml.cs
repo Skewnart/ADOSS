@@ -236,11 +236,19 @@ namespace Client
         {
             if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
             else if (String.IsNullOrEmpty(this.Key)) Result = "Il faut mettre une clé pour le DEL";
+            else
+            {
+                this.DoAction($"delete \"{this.Key}\" \"{this.Token}\"");
+            }
         }
 
         private void DELALL_Click(object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
+            else
+            {
+                this.DoAction($"deleteall \"{this.Token}\"");
+            }
         }
     }
 }
