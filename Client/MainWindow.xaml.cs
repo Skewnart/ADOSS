@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -79,7 +80,9 @@ namespace Client
         public string Key
         {
             get { return key; }
-            set { key = value;
+            set
+            {
+                key = value;
                 OnPropertyChanged("Key");
             }
         }
@@ -87,7 +90,9 @@ namespace Client
         public string Val
         {
             get { return val; }
-            set { val = value;
+            set
+            {
+                val = value;
                 OnPropertyChanged("Val");
             }
         }
@@ -202,6 +207,8 @@ namespace Client
 
                 if (request.StartsWith("user connect") && result[0].Equals("608") && result.Length == 2)
                     this.Token = result[1];
+                else if (request.StartsWith("get") && result[0].Equals("804") && result.Length == 2)
+                    this.Val = result[1];
             }
         }
 

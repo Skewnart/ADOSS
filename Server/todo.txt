@@ -1,4 +1,6 @@
-﻿M Gestion stockage de données orientée document
+﻿H DOS : Faire le set, delete, deleteall
+
+M Gestion stockage de données orientée document
 L Gestion des langues
 L Faire le readme sur GIT
 

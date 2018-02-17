@@ -3,6 +3,8 @@ using Server.Models;
 using Server.System.Cryptography;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -69,10 +71,7 @@ namespace Server.System
                     {
                         Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
                         if (Console.ReadLine().Equals("oui"))
-                        {
-                            Store.Users.Remove(Store.Users.First(x => x.Username.Equals(commands[2])));
-                            Store.Users.Save();
-                        }
+                            Store.RemoveUser(Store.Users.First(x => x.Username.Equals(commands[2])));
                         result = "";
                     }
                 }
@@ -115,8 +114,7 @@ namespace Server.System
                         Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
                         if (Console.ReadLine().Equals("oui"))
                         {
-                            Store.Accesses.Remove(Store.Accesses.First(x => x.Name.Equals(commands[2])));
-                            Store.Accesses.Save();
+                            Store.RemoveAccess(Store.Accesses.First(x => x.Name.Equals(commands[2])));
                         }
                         result = "";
                     }
@@ -326,6 +324,40 @@ namespace Server.System
                         }
                     }
                 }
+                else if (commands[0].Equals("get"))
+                {
+                    if (commands.Length != 3) result = "602";
+                    else
+                    {
+                        string key = commands[1];
+                        dynamic token = ExtractToken(commands[2]);
+
+                        string address = token.address;
+                        DateTime date = token.date;
+                        string username = token.user;
+                        string accessname = token.access;
+
+                        if (!address.Equals(((IPEndPoint)client.RemoteEndPoint).Address.ToString())) result = "801";
+                        else if (date < DateTime.Now) result = "802";
+                        else if (!Store.Users.Any(x => x.Username.Equals(username))) result = "603";
+                        else
+                        {
+                            User user = Store.Users.First(x => x.Username.Equals(username));
+                            if (!user.Active) result = "612";
+                            else if (!Store.Accesses.Any(x => x.Name.Equals(accessname))) result = "604";
+                            else
+                            {
+                                Access access = Store.Accesses.First(x => x.Name.Equals(accessname));
+                                if (!user.Accesses.Any(x => x.Access == access)) result = "605";
+                                else
+                                {
+                                    if (!Store.KeyExists(user, access, key)) result = "803";
+                                    else result = $"804;;{Store.GetKey(user, access, key)}";
+                                }
+                            }
+                        }
+                    }
+                }
                 else
                 {
                     _logIt = false;
@@ -342,6 +374,17 @@ namespace Server.System
         public static string GenerateToken(Socket client, User user, Access access)
         {
             return Tornado.Encrypt($"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()};;{DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss")};;{user.Username};;{access.Name}");
+        }
+        public static dynamic ExtractToken(string token)
+        {
+            string[] decrypted = Tornado.Decrypt(token).Split(new string[] { ";;"}, StringSplitOptions.None);
+            return new
+            {
+                address = decrypted[0],
+                date = DateTime.ParseExact(decrypted[1], "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                user = decrypted[2],
+                access = decrypted[3]
+            };
         }
     }
 
@@ -394,6 +437,12 @@ namespace Server.System
             new ErrorCode(707, "Le type de log doit être \"server\" ou \"client\"", "Log type must be \"server\" or \"client\"", false),
             new ErrorCode(708, "Le paramètre n'est pas un nombre", "Parameter is not a number", false),
             new ErrorCode(709, "Le nombre renseigné n'est pas valide.", "Given number is not valid", false),
+
+            new ErrorCode(801, "Vous n'êtes pas le propriétaire du token.","You are not the token's owner."),
+            new ErrorCode(802, "Le token n'est plus valide.","Token is not valid anymore."),
+            new ErrorCode(803, "La donnée n'existe pas.","Data does not exist."),
+            new ErrorCode(804, "La donnée existe.","Data exists."),
+
         };
 
         public static string GetDescriptionFromCode(int code, string lang = "fr")
