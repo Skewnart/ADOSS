@@ -1,7 +1,9 @@
-﻿L Gestion des langues
+﻿M Choisir les couleurs dans la console avec le fichier de conf
 L Faire le readme sur GIT
 
 
+V Gestion des langues
+V Faire les langues pour les descriptions d'erreur
 V DOS : Faire le get, set, delete, deleteall
 V Mettre en place le dotnet run
 V Compléter le chargement du serveur (Mettre de nouvelles étapes)

@@ -71,11 +71,14 @@ namespace Server.System
                         case "loglength":
                             int.TryParse(values[1], out Log.LOGLENGTH);
                             break;
+                        case "lang":
+                            Language.LANG = values[1];
+                            break;
                     }
                 }
             }
             else
-                File.WriteAllLines(CONFIGPATH, new string[] { "#port = 32000", "#maxconn = 10", "#maxstr = 50", "#loglength = 1000" });
+                File.WriteAllLines(CONFIGPATH, new string[] { "#port = 32000", "#maxconn = 10", "#maxstr = 50", "#loglength = 1000", "#lang = en" });
         }
     }
 }

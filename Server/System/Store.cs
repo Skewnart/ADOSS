@@ -26,13 +26,9 @@ namespace Server.System
                 Directory.CreateDirectory(STOREPATH);
 
             if (File.Exists(ACCESSFILE))
-            {
                 Accesses = File.ReadAllLines(ACCESSFILE).Select(x => new Access(Tornado.Decrypt(x))).ToList();
-            }
             if (File.Exists(USERFILE))
-            {
                 Users = File.ReadAllLines(USERFILE).Select(x => new User(Tornado.Decrypt(x))).ToList();
-            }
         }
 
         public static void Save<T>(this List<T> list) where T : ISave

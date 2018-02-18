@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -36,9 +37,9 @@ namespace Server.Models
 
         public override string ToString()
         {
-            return $@"{this.Username} ({(this.Active ? "" : "Not ")}Active)
-    Accès : {String.Join(", ", this.Accesses.Select(x => x.Access.Name).ToArray())}
-    Validation : {String.Join(", ", this.Pendings.Select(x => x.Access.Name).ToArray())}";
+            return $@"{this.Username} ({(this.Active ? Language.DICT[11] : Language.DICT[12] + " ")})
+    {Language.DICT[13]} : {String.Join(", ", this.Accesses.Select(x => x.Access.Name).ToArray())}
+    {Language.DICT[14]} : {String.Join(", ", this.Pendings.Select(x => x.Access.Name).ToArray())}";
         }
     }
 }

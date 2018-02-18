@@ -69,8 +69,8 @@ namespace Server.System
                     else if (!Store.Users.Any(x => x.Username.Equals(commands[2]))) result = ErrorCode.GetDescriptionFromCode(603);
                     else
                     {
-                        Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
-                        if (Console.ReadLine().Equals("oui"))
+                        Console.Write($"{Language.DICT[6]} : ");
+                        if (Console.ReadLine().ToLower().Equals(Language.DICT[7].ToLower()))
                             Store.RemoveUser(Store.Users.First(x => x.Username.Equals(commands[2])));
                         result = "";
                     }
@@ -82,7 +82,7 @@ namespace Server.System
                     else
                     {
                         User user = Store.Users.First(x => x.Username.Equals(commands[3]));
-                        if ((user.Active && commands[2].Equals("on")) || (!user.Active && commands[2].Equals("off"))) result = $"L'utilisateur est déjà {(user.Active ? "" : "in")}actif";
+                        if ((user.Active && commands[2].Equals("on")) || (!user.Active && commands[2].Equals("off"))) result = user.Active ? Language.DICT[8] : Language.DICT[9];
                         else
                         {
                             user.Active = !user.Active;
@@ -111,8 +111,8 @@ namespace Server.System
                     else if (!Store.Accesses.Any(x => x.Name.Equals(commands[2]))) result = ErrorCode.GetDescriptionFromCode(703);
                     else
                     {
-                        Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
-                        if (Console.ReadLine().Equals("oui"))
+                        Console.Write($"{Language.DICT[6]} : ");
+                        if (Console.ReadLine().ToLower().Equals(Language.DICT[7].ToLower()))
                         {
                             Store.RemoveAccess(Store.Accesses.First(x => x.Name.Equals(commands[2])));
                         }
@@ -139,7 +139,7 @@ namespace Server.System
                             }
                             else
                             {
-                                Console.Write("Mot de passe : ");
+                                Console.Write($"{Language.DICT[10]} : ");
                                 string pass = "";
                                 ConsoleKeyInfo key = default(ConsoleKeyInfo);
                                 do
@@ -185,8 +185,8 @@ namespace Server.System
                         if (!user.Accesses.Any(x => x.Access == access) && !user.Pendings.Any(x => x.Access == access)) result = ErrorCode.GetDescriptionFromCode(704);
                         else
                         {
-                            Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
-                            if (Console.ReadLine().Equals("oui"))
+                            Console.Write($"{Language.DICT[6]} : ");
+                            if (Console.ReadLine().ToLower().Equals(Language.DICT[7].ToLower()))
                             {
                                 if (user.Accesses.Any(x => x.Access == access))
                                     user.Accesses.Remove(user.Accesses.First(x => x.Access == access));
@@ -209,8 +209,8 @@ namespace Server.System
                         if (user.Accesses.Count == 0 && user.Pendings.Count == 0) result = ErrorCode.GetDescriptionFromCode(705);
                         else
                         {
-                            Console.Write("Êtes-vous sûr ? (oui pour accepter) : ");
-                            if (Console.ReadLine().Equals("oui"))
+                            Console.Write($"{Language.DICT[6]} : ");
+                            if (Console.ReadLine().ToLower().Equals(Language.DICT[7].ToLower()))
                             {
                                 user.Accesses.Clear();
                                 user.Pendings.Clear();
@@ -362,8 +362,6 @@ namespace Server.System
                         string res = token.Check(client);
                         if (res == null)
                             result = Store.DeleteKey(token.User, token.Access, key) ? "807" : "808";
-
-
                     }
                 }
                 else if (commands[0].Equals("delall"))

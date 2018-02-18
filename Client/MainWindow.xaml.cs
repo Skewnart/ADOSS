@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -11,9 +10,6 @@ using System.Windows;
 
 namespace Client
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private string serverPath = "127.0.0.1";
@@ -146,11 +142,11 @@ namespace Client
             catch (SocketException se)
             {
                 if (se.SocketErrorCode == SocketError.TimedOut)
-                    MessageBox.Show($"Le serveur n'est pas à l'écoute", "Problème", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Server is not listening", "Problem", MessageBoxButton.OK, MessageBoxImage.Error);
                 else if (se.SocketErrorCode == SocketError.HostNotFound)
-                    MessageBox.Show($"L'adresse est inateignable", "Problème", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Given address is unreachable", "Problem", MessageBoxButton.OK, MessageBoxImage.Error);
                 else if (se.SocketErrorCode == SocketError.ConnectionRefused)
-                    MessageBox.Show($"Le serveur a refusé la connexion", "Problème", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Server refused the connection", "Problem", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
@@ -203,7 +199,7 @@ namespace Client
             if (!String.IsNullOrEmpty(this.ServerPath) && !String.IsNullOrEmpty(this.Access) && !String.IsNullOrEmpty(this.Username) && !String.IsNullOrEmpty(this.Password))
             {
                 string[] result = this.SendMessage(request).Split(new string[] { ";;" }, StringSplitOptions.None);
-                this.Result = this.ErrorCodes.First(x => x.Code.Equals(result[0])).FrenchDesc;
+                this.Result = this.ErrorCodes.First(x => x.Code.Equals(result[0])).Description;
 
                 if (request.StartsWith("user connect") && result[0].Equals("608") && result.Length == 2)
                     this.Token = result[1];
@@ -220,8 +216,8 @@ namespace Client
 
         private void GET_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
-            else if (String.IsNullOrEmpty(this.Key)) Result = "Il faut mettre une clé pour le GET";
+            if (String.IsNullOrEmpty(this.Token)) this.Result = "You must be connected before.";
+            else if (String.IsNullOrEmpty(this.Key)) Result = "You need to set a key for GET command";
             else
             {
                 this.DoAction($"get \"{this.Key}\" \"{this.Token}\"");
@@ -230,9 +226,9 @@ namespace Client
 
         private void SET_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
-            else if (String.IsNullOrEmpty(this.Key)) Result = "Il faut mettre une clé pour le SET";
-            else if (String.IsNullOrEmpty(this.Val)) Result = "Il faut mettre une valeur pour le SET";
+            if (String.IsNullOrEmpty(this.Token)) this.Result = "You must be connected before.";
+            else if (String.IsNullOrEmpty(this.Key)) Result = "You need to set a key for SET command";
+            else if (String.IsNullOrEmpty(this.Val)) Result = "You need to set a value for SET command";
             else
             {
                 this.DoAction($"set \"{this.Key}\" \"{Convert.ToBase64String(Encoding.UTF8.GetBytes(this.Val))}\" \"{this.Token}\"");
@@ -241,8 +237,8 @@ namespace Client
 
         private void DEL_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
-            else if (String.IsNullOrEmpty(this.Key)) Result = "Il faut mettre une clé pour le DEL";
+            if (String.IsNullOrEmpty(this.Token)) this.Result = "You must be connected before.";
+            else if (String.IsNullOrEmpty(this.Key)) Result = "You need to set a key for DEL command";
             else
             {
                 this.DoAction($"del \"{this.Key}\" \"{this.Token}\"");
@@ -251,7 +247,7 @@ namespace Client
 
         private void DELALL_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
+            if (String.IsNullOrEmpty(this.Token)) this.Result = "You must be connected before.";
             else
             {
                 this.DoAction($"delall \"{this.Token}\"");
