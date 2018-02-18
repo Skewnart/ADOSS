@@ -1,5 +1,4 @@
-﻿M Gestion stockage de données orientée document
-L Gestion des langues
+﻿L Gestion des langues
 L Faire le readme sur GIT
 
 

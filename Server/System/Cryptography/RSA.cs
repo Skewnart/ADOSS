@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Serialization;
@@ -150,7 +149,6 @@ namespace Server.System.Cryptography
             }
 
             return plaintext;
-
         }
 
         private static string EncryptAsymetricBytesToString(byte[] bytes, string clientPublicKey)
@@ -179,6 +177,18 @@ namespace Server.System.Cryptography
             csp.ImportParameters(privKey);
             
             return csp.Decrypt(bytesCypherText, false);
+        }
+    }
+
+    public class RSAResponse
+    {
+        public string PublicKey { get; set; }
+        public string Message { get; set; }
+
+        public RSAResponse(string publicKey, string message)
+        {
+            this.PublicKey = publicKey;
+            this.Message = message;
         }
     }
 }

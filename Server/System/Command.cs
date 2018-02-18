@@ -3,9 +3,7 @@ using Server.Models;
 using Server.System.Cryptography;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 
 namespace Server.System
@@ -272,7 +270,7 @@ namespace Server.System
                             UserAccess access = user.Accesses.First(x => x.Access.Name.Equals(commands[2]));
 
                             if (Tornado.Decrypt(access.Password).Equals(commands[4]))
-                                result = $"608;;{GenerateToken(client, user, access.Access)}";
+                                result = $"608;;{new Token(client, user, access.Access).Encrypt()}";
                             else
                                 result = "607";
                         }
@@ -332,32 +330,11 @@ namespace Server.System
                     else
                     {
                         string key = commands[1];
-                        dynamic token = ExtractToken(commands[2]);
+                        Token token = new Token(commands[2]);
 
-                        string address = token.address;
-                        DateTime date = token.date;
-                        string username = token.user;
-                        string accessname = token.access;
-
-                        if (!address.Equals(((IPEndPoint)client.RemoteEndPoint).Address.ToString())) result = "801";
-                        else if (date < DateTime.Now) result = "802";
-                        else if (!Store.Users.Any(x => x.Username.Equals(username))) result = "603";
-                        else
-                        {
-                            User user = Store.Users.First(x => x.Username.Equals(username));
-                            if (!user.Active) result = "612";
-                            else if (!Store.Accesses.Any(x => x.Name.Equals(accessname))) result = "604";
-                            else
-                            {
-                                Access access = Store.Accesses.First(x => x.Name.Equals(accessname));
-                                if (!user.Accesses.Any(x => x.Access == access)) result = "605";
-                                else
-                                {
-                                    if (!Store.KeyExists(user, access, key)) result = "803";
-                                    else result = $"804;;{Store.GetKey(user, access, key)}";
-                                }
-                            }
-                        }
+                        string res = token.Check(client);
+                        if (res == null)
+                            result = $"804;;{Store.GetKey(token.User, token.Access, key)}";
                     }
                 }
                 else if (commands[0].Equals("set"))
@@ -367,31 +344,11 @@ namespace Server.System
                     {
                         string key = commands[1];
                         string value = commands[2];
-                        dynamic token = ExtractToken(commands[3]);
+                        Token token = new Token(commands[3]);
 
-                        string address = token.address;
-                        DateTime date = token.date;
-                        string username = token.user;
-                        string accessname = token.access;
-
-                        if (!address.Equals(((IPEndPoint)client.RemoteEndPoint).Address.ToString())) result = "801";
-                        else if (date < DateTime.Now) result = "802";
-                        else if (!Store.Users.Any(x => x.Username.Equals(username))) result = "603";
-                        else
-                        {
-                            User user = Store.Users.First(x => x.Username.Equals(username));
-                            if (!user.Active) result = "612";
-                            else if (!Store.Accesses.Any(x => x.Name.Equals(accessname))) result = "604";
-                            else
-                            {
-                                Access access = Store.Accesses.First(x => x.Name.Equals(accessname));
-                                if (!user.Accesses.Any(x => x.Access == access)) result = "605";
-                                else
-                                {
-                                    result = Store.SetKey(user, access, key, value) ? "805" : "806";
-                                }
-                            }
-                        }
+                        string res = token.Check(client);
+                        if (res == null)
+                            result = Store.SetKey(token.User, token.Access, key, value) ? "805" : "806";
                     }
                 }
                 else if (commands[0].Equals("del"))
@@ -400,33 +357,13 @@ namespace Server.System
                     else
                     {
                         string key = commands[1];
-                        dynamic token = ExtractToken(commands[2]);
+                        Token token = new Token(commands[2]);
 
-                        string address = token.address;
-                        DateTime date = token.date;
-                        string username = token.user;
-                        string accessname = token.access;
+                        string res = token.Check(client);
+                        if (res == null)
+                            result = Store.DeleteKey(token.User, token.Access, key) ? "807" : "808";
 
-                        if (!address.Equals(((IPEndPoint)client.RemoteEndPoint).Address.ToString())) result = "801";
-                        else if (date < DateTime.Now) result = "802";
-                        else if (!Store.Users.Any(x => x.Username.Equals(username))) result = "603";
-                        else
-                        {
-                            User user = Store.Users.First(x => x.Username.Equals(username));
-                            if (!user.Active) result = "612";
-                            else if (!Store.Accesses.Any(x => x.Name.Equals(accessname))) result = "604";
-                            else
-                            {
-                                Access access = Store.Accesses.First(x => x.Name.Equals(accessname));
-                                if (!user.Accesses.Any(x => x.Access == access)) result = "605";
-                                else
-                                {
 
-                                    if (!Store.KeyExists(user, access, key)) result = "803";
-                                    result = Store.DeleteKey(user, access, key) ? "807" : "808";
-                                }
-                            }
-                        }
                     }
                 }
                 else if (commands[0].Equals("delall"))
@@ -434,31 +371,11 @@ namespace Server.System
                     if (commands.Length != 2) result = "602";
                     else
                     {
-                        dynamic token = ExtractToken(commands[1]);
+                        Token token = new Token(commands[1]);
 
-                        string address = token.address;
-                        DateTime date = token.date;
-                        string username = token.user;
-                        string accessname = token.access;
-
-                        if (!address.Equals(((IPEndPoint)client.RemoteEndPoint).Address.ToString())) result = "801";
-                        else if (date < DateTime.Now) result = "802";
-                        else if (!Store.Users.Any(x => x.Username.Equals(username))) result = "603";
-                        else
-                        {
-                            User user = Store.Users.First(x => x.Username.Equals(username));
-                            if (!user.Active) result = "612";
-                            else if (!Store.Accesses.Any(x => x.Name.Equals(accessname))) result = "604";
-                            else
-                            {
-                                Access access = Store.Accesses.First(x => x.Name.Equals(accessname));
-                                if (!user.Accesses.Any(x => x.Access == access)) result = "605";
-                                else
-                                {
-                                    result = Store.DeleteAllKeys(user, access) ? "809" : "810";
-                                }
-                            }
-                        }
+                        string res = token.Check(client);
+                        if (res == null)
+                            result = Store.DeleteAllKeys(token.User, token.Access) ? "809" : "810";
                     }
                 }
                 else
@@ -473,91 +390,10 @@ namespace Server.System
 
             return result;
         }
-
-        public static string GenerateToken(Socket client, User user, Access access)
-        {
-            return Tornado.Encrypt($"{((IPEndPoint)client.RemoteEndPoint).Address.ToString()};;{DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss")};;{user.Username};;{access.Name}");
-        }
-        public static dynamic ExtractToken(string token)
-        {
-            string[] decrypted = Tornado.Decrypt(token).Split(new string[] { ";;" }, StringSplitOptions.None);
-            return new
-            {
-                address = decrypted[0],
-                date = DateTime.ParseExact(decrypted[1], "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
-                user = decrypted[2],
-                access = decrypted[3]
-            };
-        }
     }
 
     public enum CommandSource
     {
         Socket, CommandLine
-    }
-
-    public class ErrorCode
-    {
-        public int Code { get; set; }
-        public string FrenchDescription { get; set; }
-        public string EnglishDescription { get; set; }
-        public bool IsOnline { get; set; }
-
-        public ErrorCode(int code, string frenchdesc, string englishdesc, bool isonline = true)
-        {
-            this.Code = code;
-            this.FrenchDescription = frenchdesc;
-            this.EnglishDescription = englishdesc;
-            this.IsOnline = isonline;
-        }
-
-        public override string ToString()
-        {
-            return $"{this.Code};;{this.FrenchDescription};;{this.EnglishDescription}";
-        }
-
-        public static readonly HashSet<ErrorCode> AllCodes = new HashSet<ErrorCode>()
-        {
-            new ErrorCode(601, "La commande n'existe pas.","Command does not exist."),
-            new ErrorCode(602, "La commande est mal formatée.","Command is malformed."),
-            new ErrorCode(603, "L'utilisateur n'existe pas.","User does not exist."),
-            new ErrorCode(604, "Le service demandé n'existe pas.","Requested service does not exist."),
-            new ErrorCode(605, "L'utilisateur n'a pas accès à ce service.","Access is denied."),
-            new ErrorCode(606, "Le service est en cours d'acceptation.","Service is still pending."),
-            new ErrorCode(607, "Le mot de passe n'est pas bon.","Password incorrect."),
-            new ErrorCode(608, "Accès autorisé.","Access granted."),
-            new ErrorCode(609, "L'utilisateur est déjà enregistré.","User already registered."),
-            new ErrorCode(610, "Le mot de passe n'a pas changé.","Password didn't change."),
-            new ErrorCode(611, "Le mot de passe a bien changé.","Password successfully changed."),
-            new ErrorCode(612, "L'utilisateur n'est pas actif.","User is not active."),
-
-            new ErrorCode(701, "L'utilisateur existe déjà.", "User already exist.", false),
-            new ErrorCode(702, "Le service existe déjà.", "Service already exist.", false),
-            new ErrorCode(703, "Le service n'existe pas.", "Service does not exist.", false),
-            new ErrorCode(704, "L'utilisateur n'a pas cet accès.", "User does not have this access.", false),
-            new ErrorCode(705, "L'utilisateur n'a aucun service.", "User does not have any service.", false),
-            new ErrorCode(706, "L'utilisateur a déjà cette accès.", "User already have this access.", false),
-            new ErrorCode(707, "Le type de log doit être \"server\" ou \"client\"", "Log type must be \"server\" or \"client\"", false),
-            new ErrorCode(708, "Le paramètre n'est pas un nombre", "Parameter is not a number", false),
-            new ErrorCode(709, "Le nombre renseigné n'est pas valide.", "Given number is not valid", false),
-
-            new ErrorCode(801, "Vous n'êtes pas le propriétaire du token.","You are not the token's owner."),
-            new ErrorCode(802, "Le token n'est plus valide.","Token is not valid anymore."),
-            new ErrorCode(803, "La donnée n'existe pas.","Data does not exist."),
-            new ErrorCode(804, "La donnée existe.","Data exists."),
-            new ErrorCode(805, "La donnée a été stockée.","Data has been stored."),
-            new ErrorCode(806, "La donnée n'a pas pu être stockée.","Data couldn't be stored."),
-            new ErrorCode(807, "La donnée a été supprimée.","Data has been deleted."),
-            new ErrorCode(808, "La donnée n'a pas pu être supprimée.","Data couldn't be deleted."),
-            new ErrorCode(809, "Toutes les données ont été supprimées.", "Datas have been deleted."),
-            new ErrorCode(810, "Les données n'ont pas toutes été supprimées","All datas couldn't be deleted."),
-        };
-
-        public static string GetDescriptionFromCode(int code, string lang = "fr")
-        {
-            if (!AllCodes.Any(x => x.Code == code)) return null;
-            ErrorCode error = AllCodes.FirstOrDefault(x => x.Code == code);
-            return lang.Equals("fr") ? error.FrenchDescription : error.EnglishDescription;
-        }
     }
 }
