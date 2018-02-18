@@ -429,6 +429,38 @@ namespace Server.System
                         }
                     }
                 }
+                else if (commands[0].Equals("delall"))
+                {
+                    if (commands.Length != 2) result = "602";
+                    else
+                    {
+                        dynamic token = ExtractToken(commands[1]);
+
+                        string address = token.address;
+                        DateTime date = token.date;
+                        string username = token.user;
+                        string accessname = token.access;
+
+                        if (!address.Equals(((IPEndPoint)client.RemoteEndPoint).Address.ToString())) result = "801";
+                        else if (date < DateTime.Now) result = "802";
+                        else if (!Store.Users.Any(x => x.Username.Equals(username))) result = "603";
+                        else
+                        {
+                            User user = Store.Users.First(x => x.Username.Equals(username));
+                            if (!user.Active) result = "612";
+                            else if (!Store.Accesses.Any(x => x.Name.Equals(accessname))) result = "604";
+                            else
+                            {
+                                Access access = Store.Accesses.First(x => x.Name.Equals(accessname));
+                                if (!user.Accesses.Any(x => x.Access == access)) result = "605";
+                                else
+                                {
+                                    result = Store.DeleteAllKeys(user, access) ? "809" : "810";
+                                }
+                            }
+                        }
+                    }
+                }
                 else
                 {
                     _logIt = false;
@@ -517,6 +549,8 @@ namespace Server.System
             new ErrorCode(806, "La donnée n'a pas pu être stockée.","Data couldn't be stored."),
             new ErrorCode(807, "La donnée a été supprimée.","Data has been deleted."),
             new ErrorCode(808, "La donnée n'a pas pu être supprimée.","Data couldn't be deleted."),
+            new ErrorCode(809, "Toutes les données ont été supprimées.", "Datas have been deleted."),
+            new ErrorCode(810, "Les données n'ont pas toutes été supprimées","All datas couldn't be deleted."),
         };
 
         public static string GetDescriptionFromCode(int code, string lang = "fr")

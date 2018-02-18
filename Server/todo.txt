@@ -1,11 +1,9 @@
-﻿H DOS : Faire le delete, deleteall
-
-M Gestion stockage de données orientée document
+﻿M Gestion stockage de données orientée document
 L Gestion des langues
 L Faire le readme sur GIT
 
 
-V DOS : Faire le get, set
+V DOS : Faire le get, set, delete, deleteall
 V Mettre en place le dotnet run
 V Compléter le chargement du serveur (Mettre de nouvelles étapes)
 V Commande viewlast "server/client" {number}
