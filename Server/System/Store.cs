@@ -126,5 +126,30 @@ namespace Server.System
                 return false;
             }
         }
+
+        public static bool DeleteKey(User user, Access access, string key)
+        {
+            string _accessStorePath = Path.Combine(STOREPATH, access.Name);
+            if (Directory.Exists(_accessStorePath))
+            {
+                string _keyPath = Path.Combine(_accessStorePath, user.Username);
+                if (Directory.Exists(_keyPath))
+                {
+                    string _keyFile = Path.Combine(_keyPath, key);
+                    if (File.Exists(_keyFile))
+                    {
+                        try
+                        {
+                            File.Delete(_keyFile);
+                            return true;
+                        }
+                        catch(Exception)
+                        { }
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

@@ -245,7 +245,7 @@ namespace Client
             else if (String.IsNullOrEmpty(this.Key)) Result = "Il faut mettre une clé pour le DEL";
             else
             {
-                this.DoAction($"delete \"{this.Key}\" \"{this.Token}\"");
+                this.DoAction($"del \"{this.Key}\" \"{this.Token}\"");
             }
         }
 
@@ -254,7 +254,7 @@ namespace Client
             if (String.IsNullOrEmpty(this.Token)) this.Result = "Il faut se connecter avant.";
             else
             {
-                this.DoAction($"deleteall \"{this.Token}\"");
+                this.DoAction($"delall \"{this.Token}\"");
             }
         }
     }
