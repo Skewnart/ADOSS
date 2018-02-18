@@ -4,7 +4,6 @@ using Server.System.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -46,6 +45,9 @@ namespace Server.System
     user connect access {username} {password}
     user register access {username} {password}
     user changepassword access {username} {oldpassword} {newpassword}
+
+    get {key} {token}
+    set {key} {value} {token}
     
     errors list";
                 else if (command.Equals("quit"))
@@ -358,6 +360,40 @@ namespace Server.System
                         }
                     }
                 }
+                else if (commands[0].Equals("set"))
+                {
+                    if (commands.Length != 4) result = "602";
+                    else
+                    {
+                        string key = commands[1];
+                        string value = commands[2];
+                        dynamic token = ExtractToken(commands[3]);
+
+                        string address = token.address;
+                        DateTime date = token.date;
+                        string username = token.user;
+                        string accessname = token.access;
+
+                        if (!address.Equals(((IPEndPoint)client.RemoteEndPoint).Address.ToString())) result = "801";
+                        else if (date < DateTime.Now) result = "802";
+                        else if (!Store.Users.Any(x => x.Username.Equals(username))) result = "603";
+                        else
+                        {
+                            User user = Store.Users.First(x => x.Username.Equals(username));
+                            if (!user.Active) result = "612";
+                            else if (!Store.Accesses.Any(x => x.Name.Equals(accessname))) result = "604";
+                            else
+                            {
+                                Access access = Store.Accesses.First(x => x.Name.Equals(accessname));
+                                if (!user.Accesses.Any(x => x.Access == access)) result = "605";
+                                else
+                                {
+                                    result = Store.SetKey(user, access, key, value) ? "805" : "806";
+                                }
+                            }
+                        }
+                    }
+                }
                 else
                 {
                     _logIt = false;
@@ -377,7 +413,7 @@ namespace Server.System
         }
         public static dynamic ExtractToken(string token)
         {
-            string[] decrypted = Tornado.Decrypt(token).Split(new string[] { ";;"}, StringSplitOptions.None);
+            string[] decrypted = Tornado.Decrypt(token).Split(new string[] { ";;" }, StringSplitOptions.None);
             return new
             {
                 address = decrypted[0],
@@ -442,7 +478,8 @@ namespace Server.System
             new ErrorCode(802, "Le token n'est plus valide.","Token is not valid anymore."),
             new ErrorCode(803, "La donnée n'existe pas.","Data does not exist."),
             new ErrorCode(804, "La donnée existe.","Data exists."),
-
+            new ErrorCode(805, "La donnée a été stockée.","Data stored."),
+            new ErrorCode(806, "La donnée n'a pas pu être stockée.","Data couldn't be stored."),
         };
 
         public static string GetDescriptionFromCode(int code, string lang = "fr")

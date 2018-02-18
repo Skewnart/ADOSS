@@ -104,7 +104,27 @@ namespace Server.System
                 }
             }
 
-            return null;
+            return String.Empty;
+        }
+
+        public static bool SetKey(User user, Access access, string key, string value)
+        {
+            try
+            {
+                string _accessStorePath = Path.Combine(STOREPATH, access.Name);
+                if (!Directory.Exists(_accessStorePath)) Directory.CreateDirectory(_accessStorePath);
+
+                string _keyPath = Path.Combine(_accessStorePath, user.Username);
+                if (!Directory.Exists(_keyPath)) Directory.CreateDirectory(_keyPath);
+
+                string _keyFile = Path.Combine(_keyPath, key);
+                File.WriteAllBytes(_keyFile, Convert.FromBase64String(value));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

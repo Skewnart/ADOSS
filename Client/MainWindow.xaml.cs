@@ -208,7 +208,7 @@ namespace Client
                 if (request.StartsWith("user connect") && result[0].Equals("608") && result.Length == 2)
                     this.Token = result[1];
                 else if (request.StartsWith("get") && result[0].Equals("804") && result.Length == 2)
-                    this.Val = result[1];
+                    this.Val = Encoding.UTF8.GetString(Convert.FromBase64String(result[1]));
             }
         }
 
@@ -235,7 +235,7 @@ namespace Client
             else if (String.IsNullOrEmpty(this.Val)) Result = "Il faut mettre une valeur pour le SET";
             else
             {
-                this.DoAction($"set \"{this.Key}\" \"{this.Val}\" \"{this.Token}\"");
+                this.DoAction($"set \"{this.Key}\" \"{Convert.ToBase64String(Encoding.UTF8.GetBytes(this.Val))}\" \"{this.Token}\"");
             }
         }
 
