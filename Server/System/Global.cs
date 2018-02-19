@@ -52,6 +52,9 @@ namespace Server.System
             Console.ResetColor();
         }
 
+        /// <summary>
+        /// Load the config file. Create it with default values when does not exist.
+        /// </summary>
         public static void LoadConfig()
         {
             if (File.Exists(CONFIGPATH))

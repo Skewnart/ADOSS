@@ -1,7 +1,7 @@
-﻿H Commenter otut le code
-L Faire le readme sur GIT
+﻿L Faire le readme sur GIT
 
 
+V Commenter tout le code
 V Choisir les couleurs dans la console avec le fichier de conf
 V Gestion des langues
 V Faire les langues pour les descriptions d'erreur

@@ -10,6 +10,13 @@ namespace Server.System
 {
     public static class Command
     {
+        /// <summary>
+        /// Method to process the command, depending on the source.
+        /// </summary>
+        /// <param name="client">Client processing the command.</param>
+        /// <param name="command">The command</param>
+        /// <param name="source">The source, for the log</param>
+        /// <returns>Returning error code, with optionally an additional information.</returns>
         public static string ProcessCommand(Socket client, string command, CommandSource source)
         {
             bool _logIt = true;
@@ -334,7 +341,10 @@ namespace Server.System
 
                         string res = token.Check(client);
                         if (res == null)
-                            result = $"804;;{Store.GetKey(token.User, token.Access, key)}";
+                        {
+                            string value = Store.GetKey(token.User, token.Access, key);
+                            result = $"{(String.IsNullOrEmpty(value) ? "803" : $"804;;{value}")}";
+                        }
                     }
                 }
                 else if (commands[0].Equals("set"))
