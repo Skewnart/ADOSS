@@ -11,12 +11,10 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            Global.DisplayTitle();
-            Console.WriteLine("\nInitialization : ");
-
-            Console.Write("{0, -30}", "\tConfiguration...");
             Global.LoadConfig();
-            Console.WriteLine("ok");
+            Global.DisplayTitle();
+
+            Console.WriteLine("\nInitialization : ");
 
             Console.Write("{0, -30}", $"\tLanguage...");
             Language.LoadConfig();
