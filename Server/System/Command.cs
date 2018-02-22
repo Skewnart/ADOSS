@@ -53,6 +53,8 @@ namespace Server.System
 
     get {key} {token}
     set {key} {value} {token}
+    del {key} {token}
+    delall {token}
     
     errors list";
                 else if (command.Equals("quit"))
