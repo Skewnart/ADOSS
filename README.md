@@ -1,3 +1,5 @@
+[If you liked it, give me on paypal ! ;)](https://www.paypal.me/CorentinZ/1)
+
 # ADOSS
 ## (Authentication and Document Oriented Storage System)
 
