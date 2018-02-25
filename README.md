@@ -1,4 +1,4 @@
-[If you liked it, give me on paypal ! ;)](https://www.paypal.me/CorentinZ/1)
+[If you liked it, give me on paypal ! :grin:](https://www.paypal.me/CorentinZ/1)
 
 # ADOSS
 ## (Authentication and Document Oriented Storage System)
@@ -245,4 +245,4 @@ $ rm dotnet.tar.gz
 
 <br/>
 
-[If you liked it, give me on paypal ! ;)](https://www.paypal.me/CorentinZ/1)
+[If you liked it, give me on paypal ! :grin:](https://www.paypal.me/CorentinZ/1)
