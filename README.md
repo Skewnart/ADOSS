@@ -1,7 +1,7 @@
-#ADOSS
-##(Authentication and Document Oriented Storage System)
+# ADOSS
+## (Authentication and Document Oriented Storage System)
 --- 
-###Introduction
+### Introduction
 Are you fed up with creating again and again an authentication system in each of your project ? So am I !
 That's why I created this wonderful system which allows you to authenticate all your users between all your services with this only server. Furthermore, the user can store his ciphered datas (texts, photos, videos, all that he needs), without recreating a new storage system as well. This way, you can develop a multi platform application, and sharing all datas between them.
 And because the entire system is develop in C# .NET Core, you can install it on Windows, Linux, and Mac.
@@ -9,11 +9,11 @@ Also, you can implement your own language for the system without recompliling th
 So forget the hard work, and choose the simplicity.
 
 
-###Usage
+### Usage
 There is nothing easier than using this system. Once the server is launched, it is autonomous. Just connect to it and dialog with simple messages. You can register to a given service, sign in, get set or delete an object in the storage, and so on.
 Server administrator can easily manage and interact with the system. Even if the system is listening to clients, he is also listening to local commands, to create users (same as registering on the client side), to create services, accept registers, delete users, and it's not exhaustive. (All modules and commands are explained after)
 
-###Installation
+### Installation
 There is nothing more simple than the installation of the server. Just. Launch. It.
 Client side, just develop the api dialog depending on the language you use, and that's it ! this way you will retrieve all what you need.
 
@@ -35,8 +35,8 @@ File structure tree :
 -- config                   --Containing all server configuration.
 </code></pre>
 
-###Modules
-#####Server configuration
+### Modules
+##### Server configuration
 
 The server is made to work with a configuration file, loaded at launch. Don't wory if you don't have it at the first launch, it will be created with default values. As seen in the file structure tree, the configuration file is at the server base directory.
 Here are the configuration possibilities :
@@ -55,10 +55,10 @@ You can comment lines in the file as you want, with the **#** as first character
 If a key as well as a value is misunderstood by the configuration reader, it will be discarded.
 If a key is defined mutliple times, only the last occurence will be considered.
 <br/>
-#####Language system
+##### Language system
 The entire system is written in english by default. Because not everyone and not every system are in English, it's possible to adapt the system to run in another language. To translate strings, just write a new file based on the "en" file, name it with the name you want. The name needs to match the name in the configuration file. If the configuration loader is not able to read your language file, the "en" file will be used.
 <br/>
-#####Handling client and network protocol
+##### Handling client and network protocol
 Server / Client dialog is very simple. But first, let's have a look to the client handling by the server.
 When the server is launched, it prepares the configuration and all modules it needs. Then, it turns into a socket listener, which wait for a client connection. As soon as a client connects to the server, the server creates a new thread in order to manage the client, and the server directly waits for another client.
 Then, let's look at the thread method. In fact, the thread has one goal : Wait for a request, process the request, and answer. Then close the connection.
@@ -73,7 +73,7 @@ Here is the exact thread process :
 
 _All requests need to be 64 bits string in order to be processed. That's the way the client can send files, music, or videos, and turn the server into a document oriented store system._
 <br/>
-#####Cryptography System
+##### Cryptography System
 The cryptography system is a little bit more tricky. This system is used at three different places.
 
 - **First**, the easier one, is for the store system. Both accesses and users are store ciphered in the data files. They are stored using the **Tornado algorithm**.
@@ -104,7 +104,7 @@ Here are the steps for encryption :
 
 - **The last** use case of cryptographic system is for the login token generation, described in the following part !
 <br/>
-#####Authentication and Storage system
+##### Authentication and Storage system
 The authentication system is used by the client to access a given service, by giving the server a username and a password, and of course, the target access.
 Client has multiple choice :
 1. **Connect to a service.**
@@ -148,16 +148,16 @@ A data is stored following this tree : _base directory_ > _datas_ > _store_ > _a
 Each command can result an error. These errors are defined in the language file. The client can get all error codes, associated with the good language, by requesting the **_errors list_** command. It will result an array with the code and description of all errors. This way, you can display the message you want, or server message directly.
 A exhausting table of all error codes can be found in the annexes.
 <br/>
-#####Interface and Log system
+##### Interface and Log system
 Server interface is made to be user friendly : Easily readable, no useless informations, quickly closable. As soon as the server is launched, configration file is read, and title is displayed. Then, all configurations start, in this order : Language system, Logs, Encryption system, Datas, and Networking.
 After system loading, system administrator is able to write his commands. Prompt is displayed with the '#' character. Administrator can print all available commands by typing the "help" command.
 All commands result by a print on screen, and display again the prompt character. If a command badly ends, an error message will be displayed.
 All successful commands, Local or client, are stored in separatly logs. (as shown in the file structure tree, they are respectively named "localcmd.log" and "socketcmd.log"). If a log file exceeds the maximum lines as indicated in the configuration file, a new log file is created.
 <br/>
-###Annexes :
+### Annexes :
 Here are some informations you may need to start sucessfully your project, or to have complete knowledge of all you can do with this system.
 
-####Dotnet core 2.0 installation for _Debian Jessie_
+#### Dotnet core 2.0 installation for _Debian Jessie_
 To run the ADOSS server dll, you will need dotnet core 2.0 on your target system, if you want to instal it on a debien, here is the process to achieve it :
 ```bash
 $ sudo apt-get update
@@ -172,7 +172,7 @@ $ dotnet --info
 $ rm dotnet.tar.gz
 ```
 <br/>
-####Exhaustive error codes list :
+#### Exhaustive error codes list :
 |Code|Description|English message display|
 |:--:|----------|-----------------------|
 |601|Given command can't be interpreted by the server.|Command does not exist.|
@@ -207,7 +207,7 @@ $ rm dotnet.tar.gz
 |809|All datas successfully deleted.|All datas have been deleted.|
 |810|All datas couldn't be deleted for some reasons.|All datas couldn't be deleted.|
 <br/>
-####Console color possibilities :
+#### Console color possibilities :
     - Black
     - DarkBlue
     - DarkGreen
