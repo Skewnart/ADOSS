@@ -1,6 +1,6 @@
 # ADOSS
 ## (Authentication and Document Oriented Storage System)
---- 
+
 ### Introduction
 Are you fed up with creating again and again an authentication system in each of your project ? So am I !
 That's why I created this wonderful system which allows you to authenticate all your users between all your services with this only server. Furthermore, the user can store his ciphered datas (texts, photos, videos, all that he needs), without recreating a new storage system as well. This way, you can develop a multi platform application, and sharing all datas between them.
@@ -240,3 +240,7 @@ $ rm dotnet.tar.gz
     - Magenta
     - Yellow
     - White
+
+<br/>
+
+[If you liked it, give me on paypal ! ;)](https://www.paypal.me/CorentinZ/1)
