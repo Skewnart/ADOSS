@@ -1,5 +1,3 @@
-[If you liked it, give me on paypal ! :grin:](https://www.paypal.me/CorentinZ/1)
-
 # ADOSS
 ## (Authentication and Document Oriented Storage System)
 
@@ -174,9 +172,11 @@ $ dotnet --info
 $ rm dotnet.tar.gz
 ```
 <br/>
+
 #### Exhaustive error codes list :
+
 |Code|Description|English message display|
-|:--:|----------|-----------------------|
+|----|-----------|-----------------------|
 |601|Given command can't be interpreted by the server.|Command does not exist.|
 |602|Command exists but given malformed.|Command is malformed.|
 |603|Requested user does not exist.|User does not exist.|
@@ -208,7 +208,9 @@ $ rm dotnet.tar.gz
 |808|Data couldn't be deleted for some reasons.|Data couldn't be deleted.|
 |809|All datas successfully deleted.|All datas have been deleted.|
 |810|All datas couldn't be deleted for some reasons.|All datas couldn't be deleted.|
+
 <br/>
+
 #### Console color possibilities :
     - Black
     - DarkBlue
@@ -243,6 +245,3 @@ $ rm dotnet.tar.gz
     - Yellow
     - White
 
-<br/>
-
-[If you liked it, give me on paypal ! :grin:](https://www.paypal.me/CorentinZ/1)
